@@ -544,7 +544,6 @@
   </div>
 
   <script type="module">
-    import { URL_TEST17 } from "../../js/config/constants.js";
     import { incrementCountAndRenderRetry, getStoredEmail } from "../../js/helpers/finalActions.js";
     // ================== DATOS ==================
     const likert = [
@@ -1026,14 +1025,14 @@
       };
 
       try {
-        await fetch(URL_TEST17, {
+        await fetch(WEB_APP_URL, {
           method: "POST",
           mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
 
-        console.log("✅ Enviado con formato requerido (URL_TEST17).");
+        console.log("✅ Enviado con formato requerido.");
         incrementCountAndRenderRetry();
       } catch (error) {
         console.error("❌ Error enviando:", error);
