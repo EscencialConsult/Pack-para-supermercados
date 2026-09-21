@@ -1,138 +1,174 @@
-// js/helpers/finalActions.js
-// Helpers compartidos por los 8 tests del pack.
-// Cada test importa estas dos funciones al terminar de enviar sus respuestas.
+// ../../js/finalActions.js
 
-// ============================================
-// EMAIL DEL PARTICIPANTE
-// ============================================
 
-// Cada test pide el email en su pantalla inicial, pero con un id distinto.
-const EMAIL_INPUT_IDS = ['userEmail', 'user-email', 'email'];
-const EMAIL_KEY = 'participantEmail';
-
-function leerStorage(key) {
+function getStoredUser() {
   try {
-    return localStorage.getItem(key);
-  } catch (e) {
-    return null; // modo incógnito o cookies bloqueadas
+    return JSON.parse(localStorage.getItem("User") || "null");
+  } catch {
+    return null;
   }
 }
 
-function guardarStorage(key, value) {
-  try {
-    localStorage.setItem(key, value);
-  } catch (e) {
-    /* sin storage disponible: seguimos sin persistir */
-  }
+function setStoredUser(next) {
+  localStorage.setItem("User", JSON.stringify(next));
 }
 
-/**
- * Devuelve el email que cargó el participante.
- * Lo busca primero en el campo del propio test, y si la pantalla ya cambió
- * (varios tests ocultan el formulario inicial) lo recupera de localStorage.
- */
-export function getStoredEmail() {
-  for (const id of EMAIL_INPUT_IDS) {
-    const input = document.getElementById(id);
-    const valor = input && typeof input.value === 'string' ? input.value.trim() : '';
-    if (valor) {
-      guardarStorage(EMAIL_KEY, valor);
-      return valor;
-    }
-  }
-
-  const guardado = leerStorage(EMAIL_KEY);
-  if (guardado) return guardado;
-
-  // Último recurso: la sesión que dejó usuarios.html al iniciar sesión.
-  try {
-    const sesion = JSON.parse(leerStorage('sessionUser') || '{}');
-    return sesion.email || sesion.Email || '';
-  } catch (e) {
-    return '';
-  }
+function clearArea() {
+  const area = document.getElementById("finalDynamicArea");
+  if (area) area.innerHTML = "";
+  return area;
 }
 
-// ============================================
-// CIERRE DEL TEST
-// ============================================
+function renderRetryButton({ remaining }) {
+  const area = clearArea();
+  if (!area) return;
 
-/** Nombre de la carpeta del test, para contar los intentos por separado. */
-function idDelTest() {
-  const partes = window.location.pathname.split('/').filter(Boolean);
-  const carpeta = partes[partes.length - 2];
-  return carpeta || 'test';
-}
+  // Si no hay remaining, no mostramos nada
+  if (!remaining || remaining <= 0) return;
 
-function contenedorDeCierre() {
-  const msg = document.getElementById('loadingMsg');
-  if (msg && msg.parentElement) return msg.parentElement;
+  area.innerHTML = `
+    <button id="btnRetryTest" class="btn btn-secondary" type="button">
+      Volver a realizar el test (${remaining} intento${remaining === 1 ? "" : "s"} disponible${remaining === 1 ? "" : "s"})
+    </button>
+  `;
 
-  const secciones = Array.from(document.querySelectorAll('.section, section, main'));
-  const visible = secciones.reverse().find(el => el.offsetParent !== null);
-  return visible || document.body;
-}
-
-/**
- * Suma un intento al contador del test y muestra las acciones finales:
- * volver al panel de evaluaciones o rehacer el test.
- * Se llama una sola vez, después de que el envío a la planilla salió bien.
- */
-export function incrementCountAndRenderRetry() {
-  const clave = `testAttempts:${idDelTest()}`;
-  const intentos = Number(leerStorage(clave) || 0) + 1;
-  guardarStorage(clave, String(intentos));
-
-  if (document.getElementById('finalActions')) return;
-
-  const caja = document.createElement('div');
-  caja.id = 'finalActions';
-  caja.style.cssText = [
-    'margin:1.5rem auto 0',
-    'max-width:520px',
-    'display:flex',
-    'flex-wrap:wrap',
-    'gap:.75rem',
-    'justify-content:center',
-    'font-family:inherit'
-  ].join(';');
-
-  const estiloBoton = [
-    'padding:.75rem 1.4rem',
-    'border-radius:999px',
-    'border:1px solid rgba(107,225,227,.45)',
-    'background:rgba(107,225,227,.12)',
-    'color:inherit',
-    'font-size:.92rem',
-    'font-weight:700',
-    'cursor:pointer',
-    'font-family:inherit'
-  ].join(';');
-
-  const volver = document.createElement('button');
-  volver.type = 'button';
-  volver.textContent = '← Volver al panel';
-  volver.style.cssText = estiloBoton;
-  volver.addEventListener('click', () => {
-    window.location.href = '../../usuarios.html';
-  });
-
-  const rehacer = document.createElement('button');
-  rehacer.type = 'button';
-  rehacer.textContent = 'Rehacer el test';
-  rehacer.style.cssText = estiloBoton + ';border-color:rgba(198,201,215,.35);background:rgba(254,254,255,.06)';
-  rehacer.addEventListener('click', () => {
+  document.getElementById("btnRetryTest").addEventListener("click", () => {
+    // Lo más simple: recargar para reiniciar flujo desde login/instrucciones
     window.location.reload();
   });
+}
 
-  const detalle = document.createElement('p');
-  detalle.textContent = intentos === 1
-    ? 'Registramos tu primer envío.'
-    : `Registramos ${intentos} envíos de este test.`;
-  detalle.style.cssText = 'width:100%;text-align:center;margin:0 0 .25rem;font-size:.85rem;opacity:.75';
+function jsonpRequest(url, params = {}, timeoutMs = 15000) {
+  return new Promise((resolve, reject) => {
+    const cb = "cb_" + Math.random().toString(36).slice(2);
 
-  caja.appendChild(detalle);
-  caja.appendChild(volver);
-  caja.appendChild(rehacer);
-  contenedorDeCierre().appendChild(caja);
+    const timer = setTimeout(() => {
+      cleanup();
+      reject(new Error("JSONP timeout"));
+    }, timeoutMs);
+
+    function cleanup() {
+      clearTimeout(timer);
+      try {
+        delete window[cb];
+      } catch {}
+      if (script && script.parentNode) script.parentNode.removeChild(script);
+    }
+
+    window[cb] = (data) => {
+      cleanup();
+      resolve(data);
+    };
+
+    const u = new URL(url);
+    Object.entries(params).forEach(([k, v]) => {
+      if (v !== undefined && v !== null) u.searchParams.set(k, String(v));
+    });
+    u.searchParams.set("callback", cb);
+
+    const script = document.createElement("script");
+    script.src = u.toString();
+    script.async = true;
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("JSONP network error"));
+    };
+
+    document.head.appendChild(script);
+  });
+}
+
+/**
+ * Llama al Apps Script para incrementar count y renderiza botón si hay remaining.
+ * Ahora usa JSONP (GET) para poder leer respuesta cross-domain.
+ */
+export async function incrementCountAndRenderRetry() {
+  const u = getStoredUser();
+  console.log("Usuario recuperado:", u);
+
+  // Si no hay usuario, no hacemos nada
+  if (!u?.userId || !u?.id_test) {
+    console.warn("No hay usuario válido, limpiando área...");
+    clearArea();
+    return;
+  }
+
+  // Si ya no tiene intentos según localStorage, no mostramos botón y listo
+  console.log("Intentos actuales:", u.count, "Máximo permitido:", u.amount);
+  if (Number(u.count) >= Number(u.amount)) {
+    console.warn("Ya alcanzó el máximo de intentos, limpiando área...");
+    clearArea();
+    return;
+  }
+
+  const ENDPOINT =
+    "https://script.google.com/macros/s/AKfycbwu0X43xAAYZYIbTPr-hrcPkab_SWOCjbd906SJ3w2wBURaqEW19ghUJkno3pYfk5L0/exec";
+
+  // JSONP al Apps Script (GET)
+  const params = {
+    action: "incrementCount",
+    id_user: u.userId,
+    id_test: u.id_test,
+  };
+
+  console.log("Params JSONP a enviar:", params);
+
+  let resJson;
+  try {
+    resJson = await jsonpRequest(ENDPOINT, params, 15000);
+    console.log("Respuesta JSONP:", resJson);
+  } catch (err) {
+    console.error("incrementCount JSONP error:", err);
+    clearArea();
+    return;
+  }
+
+  if (!resJson?.ok) {
+    console.warn("Respuesta no OK:", resJson);
+    clearArea();
+    return;
+  }
+
+  // Apps Script devuelve: { ok:true, count, amount, state, finished, ... }
+  const nextCount = Number(resJson.count ?? u.count ?? 0);
+  const nextAmount = Number(resJson.amount ?? u.amount ?? 0);
+  const remaining = Math.max(0, nextAmount - nextCount);
+
+  console.log("Valores calculados:", { nextCount, nextAmount, remaining });
+
+  // Actualiza localStorage con lo nuevo
+  setStoredUser({
+    ...u,
+    count: nextCount,
+    amount: nextAmount,
+    state: resJson.state,
+    finished: resJson.finished,
+    remaining,
+  });
+
+  console.log("Usuario actualizado en storage:", getStoredUser());
+
+  // Renderiza según remaining
+  renderRetryButton({ remaining });
+  console.log("Renderizado botón con remaining:", remaining);
+}
+
+// ../../js/finalActions.js
+
+/**
+ * Devuelve el email guardado en localStorage ("User.email").
+ * Si no existe o está vacío, devuelve "escencialconsult@gmail.com".
+ */
+export function getStoredEmail(defaultEmail = "escencialconsult@gmail.com") {
+  try {
+    const raw = localStorage.getItem("User");
+    if (!raw) return defaultEmail;
+
+    const u = JSON.parse(raw);
+    const email = typeof u?.email === "string" ? u.email.trim() : "";
+
+    return email || defaultEmail;
+  } catch {
+    return defaultEmail;
+  }
 }
