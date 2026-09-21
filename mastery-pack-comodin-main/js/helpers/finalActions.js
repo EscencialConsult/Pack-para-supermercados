@@ -154,18 +154,22 @@ export async function incrementCountAndRenderRetry() {
 }
 
 // ../../js/finalActions.js
-
 /**
- * Devuelve el email guardado en localStorage ("User.email").
- * Si no existe o está vacío, devuelve "escencialconsult@gmail.com".
+ * Devuelve el email al que debe llegar el informe del test.
+ *
+ * Es el del ADMINISTRADOR del pack, no el que carga la persona que rinde el
+ * test: ese dato va a la columna que el Apps Script usa como destinatario.
+ * usuarios.html guarda los datos del admin en localStorage ("adminData")
+ * al iniciar sesión. Si no están (por ejemplo, si se abrió el test sin pasar
+ * por el panel), se usa el correo por defecto.
  */
 export function getStoredEmail(defaultEmail = "escencialconsult@gmail.com") {
   try {
-    const raw = localStorage.getItem("User");
+    const raw = localStorage.getItem("adminData");
     if (!raw) return defaultEmail;
 
-    const u = JSON.parse(raw);
-    const email = typeof u?.email === "string" ? u.email.trim() : "";
+    const admin = JSON.parse(raw);
+    const email = typeof admin?.email === "string" ? admin.email.trim() : "";
 
     return email || defaultEmail;
   } catch {
