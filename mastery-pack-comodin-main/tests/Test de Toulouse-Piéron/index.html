@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Toulouse-Piéron - Escencial Consultora</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            min-height: 100vh;
+            padding: 24px;
+            background: linear-gradient(135deg, #0a1929 0%, #0b4a6e 50%, #020f27 100%);
+            background-attachment: fixed;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(11, 74, 110, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(2, 15, 39, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+            animation: backgroundPulse 15s ease-in-out infinite;
+        }
+
+        @keyframes backgroundPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            padding: 40px;
+            position: relative;
+            animation: fadeInUp 0.6s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            height: 64px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            color: #020f27;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+            background: linear-gradient(135deg, #020f27 0%, #0b4a6e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 32px;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0b4a6e;
+            box-shadow: 0 0 0 4px rgba(11, 74, 110, 0.1);
+            transform: translateY(-2px);
+        }
+
+        input:hover {
+            border-color: #0b4a6e;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px 28px;
+            background-color: #0b4a6e;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgb(255, 255, 255);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(2, 15, 39, 0.5);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #020f27 0%, #0b4a6e 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 24px;
+            border-left: 4px solid #0b4a6e;
+        }
+
+        .info-box p {
+            color: #374151;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff4d4 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            color: #374151;
+            border-left: 4px solid #ffc107;
+        }
+
+        .instructions strong {
+            color: #020f27;
+        }
+
+        .reference {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 24px;
+            background: linear-gradient(135deg, #fff9e6 0%, #fffbf0 100%);
+            border-radius: 12px;
+            border: 2px solid #ffc107;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .reference h3 {
+            color: #020f27;
+            margin-bottom: 16px;
+            font-size: 20px;
+        }
+
+        .reference-symbols {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* CUADRADOS SIN SCROLL - TODO VISIBLE */
+        .symbol-grid {
+            display: grid;
+            grid-template-columns: repeat(40, 24px);
+            gap: 2px;
+            margin-bottom: 24px;
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+            /* SIN max-height ni overflow - todo visible */
+        }
+
+        /* EFECTO BORROSO CUANDO NO ESTÁ ACTIVO */
+        .symbol-grid.blurred {
+            filter: blur(4px);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .symbol {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+        }
+
+        .symbol:hover {
+            background: #dbeafe;
+            transform: scale(1.15);
+            border-color: #3b82f6;
+            z-index: 10;
+        }
+
+        .symbol.selected {
+            background: #fbbf24;
+            transform: scale(1.1);
+            border-color: #f59e0b;
+        }
+
+        .symbol svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .timer {
+            flex: 1;
+            padding: 20px;
+            background: linear-gradient(135deg, #020f27 0%, #0b4a6e 100%);
+            color: white;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 36px;
+            font-weight: 700;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(2, 15, 39, 0.3);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .stat {
+            padding: 16px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e5e7eb;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            color: #020f27;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .button-group .btn {
+            flex: 1;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .results-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .results-title {
+            color: #020f27;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .results-message {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .user-info {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+            border: 2px solid #e5e7eb;
+        }
+
+        /* RESPONSIVE PARA MÓVILES */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+
+            .container {
+                padding: 20px;
+                border-radius: 16px;
+            }
+
+            .logo {
+                height: 48px;
+                top: 16px;
+                right: 16px;
+            }
+
+            h1 {
+                font-size: 22px;
+                padding-right: 60px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+            .symbol-grid {
+                grid-template-columns: repeat(20, 14px);
+                gap: 1px;
+                padding: 8px;
+            }
+
+            .symbol {
+                width: 14px;
+                height: 14px;
+            }
+
+            .symbol svg {
+                width: 12px;
+                height: 12px;
+            }
+
+            .symbol:hover {
+                transform: scale(1.3);
+            }
+
+            .reference-symbols {
+                gap: 12px;
+            }
+
+            .reference-symbols>div {
+                width: 50px !important;
+                height: 50px !important;
+            }
+
+            .reference-symbols svg {
+                width: 35px !important;
+                height: 35px !important;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .timer {
+                min-width: 100%;
+                font-size: 32px;
+                padding: 16px;
+            }
+
+            .stats {
+                min-width: 100%;
+            }
+
+            .stat-value {
+                font-size: 24px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .instructions ul {
+                font-size: 14px;
+            }
+
+            .info-box p {
+                font-size: 13px;
+            }
+        }
+
+        /* TABLETS */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .symbol-grid {
+                grid-template-columns: repeat(30, 18px);
+                gap: 2px;
+            }
+
+            .symbol {
+                width: 18px;
+                height: 18px;
+            }
+
+            .symbol svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="../../img/escencial-logo.png" alt="Escencial Logo" class="logo">
+
+        <!-- Pantalla de Registro -->
+        <div id="registrationScreen">
+            <h1>Test de Toulouse-Piéron</h1>
+            <p class="subtitle">Test de Atención y Concentración</p>
+
+            <div class="form-group">
+                <label for="userName">Nombre</label>
+                <input type="text" id="userName" placeholder="Ingresa tu nombre" required>
+            </div>
+
+            <div class="form-group">
+                <label for="userLastName">Apellido</label>
+                <input type="text" id="userLastName" placeholder="Ingresa tu apellido" required>
+            </div>
+
+            <div class="form-group">
+                <label for="userEmail">Correo Electrónico</label>
+                <input type="email" id="userEmail" placeholder="tu@email.com" required>
+            </div>
+
+            <button class="btn btn-primary" id="registerBtn">Continuar</button>
+
+            <div class="info-box">
+                <p><strong>Sobre este test:</strong> El Test de Toulouse-Piéron evalúa tu atención sostenida,
+                    concentración y rapidez perceptiva. Tendrás exactamente 10 minutos para completar la tarea.</p>
+            </div>
+        </div>
+
+        <!-- Pantalla de Explicación -->
+        <div id="explanationScreen" class="hidden">
+            <h1>Instrucciones del Test</h1>
+            <p class="subtitle">Lee atentamente antes de comenzar</p>
+
+            <div class="instructions">
+                <p style="margin-bottom: 16px;"><strong>Hola <span id="explanationName"></span>,</strong></p>
+
+                <p style="margin-bottom: 12px;">Este test evalúa tu capacidad de <strong>atención sostenida,
+                        concentración y rapidez perceptiva</strong>.</p>
+
+                <p style="margin-bottom: 12px;"><strong>Tu tarea:</strong></p>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>Verás una cuadrícula con 1,600 cuadrados diferentes</li>
+                    <li>Al inicio se te mostrarán 2 cuadrados de referencia</li>
+                    <li>Debes hacer clic en TODOS los cuadrados que coincidan exactamente con los de referencia</li>
+                    <li>Tienes exactamente <strong>10 minutos</strong> para completar la tarea</li>
+                    <li>Solo 1 de cada 4 cuadrados es correcto (el resto son distractores)</li>
+                </ul>
+
+                <p style="margin-bottom: 12px;"><strong>Importante:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Trabaja lo más <strong>rápido posible sin perder precisión</strong></li>
+                    <li>Los cuadrados de referencia estarán siempre visibles arriba</li>
+                    <li>Puedes deseleccionar un cuadrado haciendo clic nuevamente</li>
+                    <li>Puedes finalizar antes de tiempo usando el botón rojo "Finalizar Test"</li>
+                    <li>Al terminar el tiempo, tus respuestas se enviarán automáticamente</li>
+                </ul>
+            </div>
+
+            <button class="btn btn-primary" id="beginTestBtn">Comenzar Test</button>
+        </div>
+
+        <!-- Pantalla del Test -->
+        <div id="testScreen" class="hidden">
+            <h1>Test de Toulouse-Piéron</h1>
+            <p class="subtitle">Participante: <span id="testName"></span></p>
+
+            <div class="reference">
+                <h3>🎯 Marca estos cuadrados:</h3>
+                <div class="reference-symbols" id="referenceSymbols"></div>
+            </div>
+
+            <div class="controls">
+                <div class="timer" id="timer">10:00</div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-label">Marcados</div>
+                        <div class="stat-value" id="marked">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Procesados</div>
+                        <div class="stat-value" id="processed">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CUADRÍCULA BORROSA AL INICIO -->
+            <div class="symbol-grid blurred" id="symbolGrid"></div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" id="startBtn">▶ Iniciar Test</button>
+                <button class="btn btn-danger" id="finishBtn" style="display: none;">⏹ Finalizar Test</button>
+            </div>
+        </div>
+
+        <!-- Pantalla de Resultados -->
+        <div id="resultsScreen" class="hidden">
+            <div class="results-container">
+                <div class="success-icon">✓</div>
+                <h1 class="results-title">¡Test Completado!</h1>
+                <p class="results-message">
+                    Gracias por completar el Test de Toulouse-Piéron.<br>
+                    Tus resultados han sido guardados exitosamente.
+                </p>
+                <div class="user-info">
+                    <p style="color: #020f27; font-weight: 600; font-size: 16px;" id="resultUserInfo"></p>
+                </div>
+                <div id="finalDynamicArea" style="margin-top:16px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { incrementCountAndRenderRetry,getStoredEmail } from '../../js/helpers/finalActions.js';
+        // =========================
+        // CONFIG
+        // =========================
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby6V2HBl2KbW0AryUG-dCwh7c00FAQl8WxkyweYG2z1RpfGXppf0KxZAWQaDFcm8who/exec";
+
+        // =========================
+        // VARIABLES GLOBALES
+        // =========================
+        let userName = '';
+        let userLastName = '';
+        let userEmail = '';
+        let symbols = [];
+        let targetSymbols = [];
+        let selectedCount = 0;
+        let respuestasNumericas = [];
+        let testActive = false;
+        let timeLeft = 600; // 10 minutos
+        let timer = null;
+        let startTime = 0;
+
+        // =========================
+        // HELPERS (estilo IPP-R)
+        // =========================
+        function formatTimeUsed(start, end) {
+            if (!start || !end) return "0m 0s";
+            const total = Math.floor((end - start) / 1000);
+            return `${Math.floor(total / 60)}m ${total % 60}s`;
+        }
+
+        function getFechaHoraAR() {
+            const now = new Date();
+            return now.toLocaleString('es-AR', {
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false
+            });
+        }
+
+        async function sendResultsIPP_R(timeStart, timeEnd, respuestasString) {
+            // Respetar formato de respuestas del Toulouse: "12,45,300,..."
+            // Pero enviar como IPP-R: "{<tiempo> - <respuestas>}"
+            const tiempoUsado = formatTimeUsed(timeStart, timeEnd);
+            const respuestasFinal = `{${tiempoUsado} - ${respuestasString}}`;
+
+            const filaOrdenada = [
+                getFechaHoraAR(),
+                userName || "SinNombre",
+                userLastName || "SinApellido",
+                getStoredEmail() || "",
+                respuestasFinal
+            ];
+
+            const payload = {
+                nombreHoja: "Respuestas",
+                fila: filaOrdenada
+            };
+
+            try {
+                await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                console.log('✅ Envío IPP-R OK (no-cors)');
+                console.log(payload);
+                incrementCountAndRenderRetry();
+            } catch (error) {
+                console.error('❌ Error al enviar (IPP-R):', error);
+            }
+        }
+
+        // =========================
+        // CREAR SÍMBOLOS (8 TIPOS)
+        // =========================
+        function createSymbol(type) {
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('viewBox', '0 0 20 20');
+            svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('x', '2');
+            rect.setAttribute('y', '2');
+            rect.setAttribute('width', '16');
+            rect.setAttribute('height', '16');
+            rect.setAttribute('fill', 'none');
+            rect.setAttribute('stroke', 'black');
+            rect.setAttribute('stroke-width', '1.8');
+            svg.appendChild(rect);
+
+            const mkLine = (x1, y1, x2, y2) => {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', String(x1));
+                line.setAttribute('y1', String(y1));
+                line.setAttribute('x2', String(x2));
+                line.setAttribute('y2', String(y2));
+                line.setAttribute('stroke', 'black');
+                line.setAttribute('stroke-width', '1.8');
+                return line;
+            };
+
+            if (type === 0) svg.appendChild(mkLine(2, 10, 18, 10));
+            else if (type === 1) svg.appendChild(mkLine(10, 2, 10, 18));
+            else if (type === 2) svg.appendChild(mkLine(2, 18, 18, 2));
+            else if (type === 3) svg.appendChild(mkLine(2, 2, 18, 18));
+            else if (type === 4) {
+                svg.appendChild(mkLine(10, 2, 10, 18));
+                svg.appendChild(mkLine(2, 10, 18, 10));
+            } else if (type === 5) {
+                svg.appendChild(mkLine(2, 2, 18, 18));
+                svg.appendChild(mkLine(2, 18, 18, 2));
+            } else if (type === 6) {
+                // vacío
+            } else if (type === 7) {
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', '10');
+                circle.setAttribute('cy', '10');
+                circle.setAttribute('r', '2.5');
+                circle.setAttribute('fill', 'black');
+                svg.appendChild(circle);
+            }
+
+            return svg;
+        }
+
+        // =========================
+        // REGISTRO
+        // =========================
+        function register() {
+            userName = document.getElementById('userName').value.trim();
+            userLastName = document.getElementById('userLastName').value.trim();
+            userEmail = document.getElementById('userEmail').value.trim();
+
+            if (!userName || !userLastName || !userEmail) {
+                alert('Por favor, completa todos los campos');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(userEmail)) {
+                alert('Por favor, ingresa un correo electrónico válido');
+                return;
+            }
+
+            document.getElementById('registrationScreen').classList.add('hidden');
+            document.getElementById('explanationScreen').classList.remove('hidden');
+            document.getElementById('explanationName').textContent = userName + ' ' + userLastName;
+        }
+
+        // =========================
+        // INICIAR TEST (pantalla)
+        // =========================
+        function startTest() {
+            document.getElementById('explanationScreen').classList.add('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
+            document.getElementById('testName').textContent = userName + ' ' + userLastName;
+
+            initializeTest();
+        }
+
+        // =========================
+        // INICIALIZAR TEST
+        // =========================
+        function initializeTest() {
+            targetSymbols = [Math.floor(Math.random() * 8), Math.floor(Math.random() * 8)];
+            while (targetSymbols[0] === targetSymbols[1]) {
+                targetSymbols[1] = Math.floor(Math.random() * 8);
+            }
+
+            const refContainer = document.getElementById('referenceSymbols');
+            refContainer.innerHTML = '';
+            targetSymbols.forEach(type => {
+                const wrapper = document.createElement('div');
+                wrapper.style.width = '70px';
+                wrapper.style.height = '70px';
+                wrapper.style.display = 'flex';
+                wrapper.style.alignItems = 'center';
+                wrapper.style.justifyContent = 'center';
+                wrapper.style.background = 'white';
+                wrapper.style.borderRadius = '8px';
+                wrapper.style.border = '3px solid #020f27';
+                wrapper.style.padding = '12px';
+
+                const svg = createSymbol(type);
+                svg.setAttribute('width', '46');
+                svg.setAttribute('height', '46');
+
+                wrapper.appendChild(svg);
+                refContainer.appendChild(wrapper);
+            });
+
+            symbols = [];
+            respuestasNumericas = [];
+            selectedCount = 0;
+
+            const grid = document.getElementById('symbolGrid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < 1600; i++) {
+                const type = Math.floor(Math.random() * 8);
+                const isTarget = targetSymbols.includes(type);
+
+                const symbolDiv = document.createElement('div');
+                symbolDiv.className = 'symbol';
+                symbolDiv.appendChild(createSymbol(type));
+                symbolDiv.dataset.type = String(type);
+                symbolDiv.dataset.isTarget = String(isTarget);
+                symbolDiv.dataset.selected = 'false';
+                symbolDiv.dataset.index = String(i);
+
+                symbolDiv.addEventListener('click', function () {
+                    selectSymbol(symbolDiv);
+                });
+
+                grid.appendChild(symbolDiv);
+                symbols.push(symbolDiv);
+            }
+
+            console.log('✅ Test inicializado con', symbols.length, 'cuadrados');
+            console.log('🎯 Cuadrados objetivo:', targetSymbols);
+        }
+
+        // =========================
+        // SELECCIONAR CUADRADO
+        // =========================
+        function selectSymbol(symbolDiv) {
+            if (!testActive) return;
+
+            const index = parseInt(symbolDiv.dataset.index, 10);
+
+            if (symbolDiv.dataset.selected === 'true') {
+                symbolDiv.dataset.selected = 'false';
+                symbolDiv.classList.remove('selected');
+                selectedCount--;
+
+                const idx = respuestasNumericas.indexOf(index);
+                if (idx > -1) respuestasNumericas.splice(idx, 1);
+            } else {
+                symbolDiv.dataset.selected = 'true';
+                symbolDiv.classList.add('selected');
+                selectedCount++;
+                respuestasNumericas.push(index);
+            }
+
+            document.getElementById('marked').textContent = String(selectedCount);
+
+            if (respuestasNumericas.length > 0) {
+                const maxIndex = Math.max(...respuestasNumericas);
+                document.getElementById('processed').textContent = String(maxIndex + 1);
+            } else {
+                document.getElementById('processed').textContent = '0';
+            }
+        }
+
+        // =========================
+        // TIMER
+        // =========================
+        function startTestTimer() {
+            testActive = true;
+            timeLeft = 600;
+            selectedCount = 0;
+            respuestasNumericas = [];
+            startTime = Date.now();
+
+            // Quitar blur
+            document.getElementById('symbolGrid').classList.remove('blurred');
+
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('finishBtn').style.display = 'block';
+            document.getElementById('marked').textContent = '0';
+            document.getElementById('processed').textContent = '0';
+
+            updateTimerUI();
+
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimerUI();
+
+                if (timeLeft <= 0) {
+                    endTest('timeout');
+                }
+            }, 1000);
+        }
+
+        function updateTimerUI() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent =
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // =========================
+        // FINALIZAR MANUAL
+        // =========================
+        function endTestManually() {
+            if (!testActive) {
+                alert('⚠️ Debes iniciar el test primero.');
+                return;
+            }
+
+            const timeUsed = 600 - timeLeft;
+            const minutesUsed = Math.floor(timeUsed / 60);
+            const secondsUsed = timeUsed % 60;
+
+            if (confirm(`¿Finalizar el test?\n\nTiempo: ${minutesUsed}:${String(secondsUsed).padStart(2, '0')}\nMarcados: ${selectedCount}`)) {
+                endTest('manual');
+            }
+        }
+
+        // =========================
+        // FINALIZAR Y ENVIAR (IPP-R)
+        // =========================
+        async function endTest(reason = 'manual') {
+            clearInterval(timer);
+            timer = null;
+            testActive = false;
+
+            if (reason === 'timeout') {
+                alert('⏰ ¡Tiempo terminado! Enviando resultados...');
+            }
+
+            // Ordenar y respetar formato Toulouse: "idx,idx,idx"
+            respuestasNumericas.sort((a, b) => a - b);
+            const respuestasString = respuestasNumericas.join(',');
+
+            const endTime = Date.now();
+
+            // Mostrar resultados SIEMPRE
+            showResults();
+
+            // Enviar como IPP-R
+            await sendResultsIPP_R(startTime, endTime, respuestasString);
+        }
+
+        // =========================
+        // MOSTRAR RESULTADOS
+        // =========================
+        function showResults() {
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+
+            document.getElementById('resultUserInfo').textContent = `${userName} ${userLastName} - ${userEmail}`;
+        }
+
+        // =========================
+        // REINICIAR
+        // =========================
+        function restartTest() {
+            if (timer) clearInterval(timer);
+            timer = null;
+
+            testActive = false;
+            timeLeft = 600;
+            selectedCount = 0;
+            userName = '';
+            userLastName = '';
+            userEmail = '';
+            respuestasNumericas = [];
+
+            document.getElementById('timer').textContent = '10:00';
+            document.getElementById('startBtn').style.display = 'block';
+            document.getElementById('finishBtn').style.display = 'none';
+            document.getElementById('symbolGrid').classList.add('blurred');
+
+            document.getElementById('userName').value = '';
+            document.getElementById('userLastName').value = '';
+            document.getElementById('userEmail').value = '';
+
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('registrationScreen').classList.remove('hidden');
+        }
+
+        // =========================
+        // INIT
+        // =========================
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('🚀 Inicializando Toulouse-Piéron (envío IPP-R)');
+
+            const registerBtn = document.getElementById('registerBtn');
+            const beginTestBtn = document.getElementById('beginTestBtn');
+            const startBtn = document.getElementById('startBtn');
+            const finishBtn = document.getElementById('finishBtn');
+            const restartBtn = document.getElementById('restartBtn');
+
+            if (registerBtn) registerBtn.addEventListener('click', register);
+            if (beginTestBtn) beginTestBtn.addEventListener('click', startTest);
+            if (startBtn) startBtn.addEventListener('click', startTestTimer);
+            if (finishBtn) finishBtn.addEventListener('click', endTestManually);
+            if (restartBtn) restartBtn.addEventListener('click', restartTest);
+
+            console.log('✅ Listeners OK');
+        });
+    </script>
+</body>
+
+</html>

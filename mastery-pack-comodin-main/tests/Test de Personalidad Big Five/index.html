@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Test de Personalidad Big Five (IPIP-50) - Validado</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="32x32" />
+    <link rel="shortcut icon" href="../../img/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="../../img/favicon.png" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+                sans-serif;
+            min-height: 100vh;
+
+            padding: clamp(12px, 3vw, 24px);
+            padding-left: max(clamp(12px, 3vw, 24px), env(safe-area-inset-left));
+            padding-right: max(clamp(12px, 3vw, 24px), env(safe-area-inset-right));
+            padding-top: max(clamp(12px, 3vw, 24px), env(safe-area-inset-top));
+            padding-bottom: max(clamp(12px, 3vw, 24px), env(safe-area-inset-bottom));
+
+            background-image: url("../../img/fondo-escencial.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: min(900px, 100%);
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            padding: clamp(18px, 4vw, 48px);
+            position: relative;
+        }
+
+        h1 {
+            color: #020f27;
+            font-size: clamp(22px, 3.6vw, 32px);
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-align: center;
+            letter-spacing: -0.5px;
+            word-break: break-word;
+        }
+
+        h2 {
+            color: #020f27;
+            font-size: clamp(18px, 3vw, 26px);
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: -0.3px;
+            word-break: break-word;
+        }
+
+        .subtitle {
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #0b4a6e 0%, #020f27 100%);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 10px 5px;
+            max-width: 100%;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            padding: 20px;
+            border-radius: 16px;
+            margin: 28px 0;
+            border-left: 4px solid #0b4a6e;
+        }
+
+        .info-box h3 {
+            color: #020f27;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .info-box p,
+        .info-box ul {
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: #fff;
+            background: linear-gradient(135deg, #0b4a6e 0%, #020f27 100%);
+            box-shadow: 0 4px 15px rgba(11, 74, 110, 0.3);
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            touch-action: manipulation;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(11, 74, 110, 0.35);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 100%);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0b4a6e 0%, #020f27 100%);
+            transition: width 0.4s ease;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(11, 74, 110, 0.3);
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            flex-wrap: wrap;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .question-block {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 20px;
+            transition: all 0.25s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .question-block.answered {
+            border-color: #0b4a6e;
+            background: #f0f9ff;
+        }
+
+        .question-block:hover {
+            background: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-number {
+            color: #0b4a6e;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .reverse-indicator {
+            background: #dc2626;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 0;
+            white-space: nowrap;
+        }
+
+        .question-text {
+            font-size: 17px;
+            color: #020f27;
+            margin-bottom: 20px;
+            font-weight: 600;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .option {
+            min-width: 0;
+            text-align: center;
+        }
+
+        .option input[type="radio"] {
+            display: none;
+        }
+
+        .option label {
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 12px 8px;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.15;
+            min-height: 44px;
+            user-select: none;
+            word-break: break-word;
+        }
+
+        .option input[type="radio"]:checked+label {
+            background: #0b4a6e;
+            color: #fff;
+            border-color: #0b4a6e;
+            transform: scale(1.03);
+        }
+
+        .option label:hover {
+            border-color: #0b4a6e;
+            background: #f0f9ff;
+        }
+
+        .confirmation-box {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin: 30px 0;
+            text-align: center;
+            border: 2px solid #0b4a6e;
+        }
+
+        .confirmation-box h3 {
+            color: #020f27;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .confirmation-box p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #475569;
+        }
+
+        .confirmation-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .validation-message {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            color: #78350f;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .page-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .page-buttons .btn {
+            flex: 1 1 220px;
+            margin-top: 0;
+        }
+
+        .btn-back {
+            position: fixed;
+            top: max(12px, env(safe-area-inset-top));
+            left: max(12px, env(safe-area-inset-left));
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #020f27 !important;
+            border: 2px solid #020f27;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            font-weight: 700;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: all 0.25s ease;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+            max-width: calc(100vw - 24px);
+            white-space: nowrap;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            background: #020f27;
+            color: #fff !important;
+            box-shadow: 0 6px 15px rgba(2, 15, 39, 0.2);
+        }
+
+        .btn-back svg {
+            transition: transform 0.25s ease;
+            flex: 0 0 auto;
+        }
+
+        .btn-back:hover svg {
+            transform: translateX(-3px);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                background-attachment: scroll;
+            }
+
+            .question-block:hover {
+                transform: none;
+            }
+
+            .options {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .option label {
+                font-size: 13px;
+                padding: 10px 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn-back {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .options {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .option label {
+                min-height: 46px;
+            }
+
+            .progress-text {
+                font-size: 13px;
+            }
+        }
+
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            .btn,
+            .btn-back {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="../../index.html" class="btn-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6" />
+        </svg>
+        Volver al catalogo
+    </a>
+
+    <div class="container">
+        <!-- PANTALLA DE INTRODUCCIÓN -->
+        <div id="intro">
+            <h1>Test de Personalidad Big Five</h1>
+            <p class="subtitle">Versión IPIP-50 Validada Científicamente</p>
+            <div style="text-align: center;">
+                <span class="badge">✓ Confiabilidad: α = 0.80-0.85</span>
+                <span class="badge">🔀 Aleatorizado por Bloques</span>
+            </div>
+
+            <div class="info-box">
+                <h3>📋 Acerca de este Test</h3>
+                <p>
+                    Este test utiliza el <strong>IPIP-50</strong> (International Personality Item Pool), un inventario
+                    de
+                    personalidad validado científicamente y de dominio público. Ha sido utilizado en más de 1,000
+                    estudios
+                    publicados.
+                </p>
+                <p style="margin-top: 10px;"><strong>Tiempo estimado:</strong> 10-15 minutos</p>
+            </div>
+
+            <div class="info-box">
+                <h3>🎯 Las 5 Dimensiones que Evalúa</h3>
+                <ul>
+                    <li><strong>Apertura a la Experiencia:</strong> Creatividad, curiosidad, imaginación</li>
+                    <li><strong>Responsabilidad:</strong> Organización, disciplina, fiabilidad</li>
+                    <li><strong>Extraversión:</strong> Sociabilidad, energía, asertividad</li>
+                    <li><strong>Amabilidad:</strong> Empatía, cooperación, altruismo</li>
+                    <li><strong>Neuroticismo:</strong> Tendencia a experimentar emociones negativas, sensibilidad al
+                        estrés</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3>📊 Metodología Validada</h3>
+                <p>• 50 preguntas (10 por dimensión)</p>
+                <p>• 50% de ítems invertidos para evitar sesgos de respuesta</p>
+                <p>• <strong>🔀 Aleatorización por bloques:</strong> Las preguntas aparecen en orden diferente cada vez
+                </p>
+                <p>• Escala Likert de 5 puntos</p>
+                <p>• Resultados con percentiles poblacionales</p>
+                <p>• Visualización con gráficos comparativos</p>
+            </div>
+
+            <div class="info-box">
+                <h3>⚠️ Importante</h3>
+                <p>Responde con honestidad según cómo realmente eres, no cómo te gustaría ser.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>👤 Tus Datos</h3>
+                <p style="margin-bottom: 15px;">Para enviarte tus resultados, necesitamos la siguiente información:</p>
+
+                <div style="margin-bottom: 15px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <div style="flex: 1 1 140px; min-width: 0;">
+                        <label for="userFirstName"
+                            style="display:block; margin-bottom:5px; font-weight:600; color:#020f27;">Nombre *</label>
+                        <input type="text" id="userFirstName" placeholder="Ej: Juan" style="
+              width:100%;
+              padding:12px;
+              border:2px solid #e2e8f0;
+              border-radius:8px;
+              font-size:15px;
+              font-family:inherit;">
+                    </div>
+                    <div style="flex: 1 1 180px; min-width: 0;">
+                        <label for="userLastName"
+                            style="display:block; margin-bottom:5px; font-weight:600; color:#020f27;">Apellidos
+                            *</label>
+                        <input type="text" id="userLastName" placeholder="Ej: Pérez" style="
+              width:100%;
+              padding:12px;
+              border:2px solid #e2e8f0;
+              border-radius:8px;
+              font-size:15px;
+              font-family:inherit;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 10px;">
+                    <label for="userEmail"
+                        style="display:block; margin-bottom:5px; font-weight:600; color:#020f27;">Email *</label>
+                    <input type="email" id="userEmail" placeholder="Ej: juan@email.com" style="
+            width:100%;
+            padding:12px;
+            border:2px solid #e2e8f0;
+            border-radius:8px;
+            font-size:15px;
+            font-family:inherit;">
+                </div>
+
+                <div id="formError" class="validation-message hidden" style="margin-top: 15px;">
+                    ⚠️ Por favor completa todos los campos requeridos.
+                </div>
+            </div>
+
+            <button class="btn" onclick="startTest()">🚀 Comenzar Test</button>
+        </div>
+
+        <!-- PANTALLA DEL TEST -->
+        <div id="test" class="hidden">
+            <h2>Test de Personalidad Big Five</h2>
+
+            <div class="progress-text">
+                <span>Pregunta <span id="currentQ">1</span> de 50</span>
+                <span>Página <span id="currentPage">1</span> de 5</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+
+            <div class="validation-message hidden" id="validationMessage">
+                ⚠️ Por favor, responde todas las preguntas de esta página antes de continuar.
+            </div>
+
+            <form id="testForm">
+                <!-- Las preguntas se generarán dinámicamente aquí -->
+            </form>
+
+            <div class="page-buttons">
+                <button type="button" class="btn hidden" id="prevBtn" onclick="previousPage()">⬅️ Anterior</button>
+                <button type="button" class="btn" id="nextBtn" onclick="nextPage()">Siguiente ➡️</button>
+                <button type="button" class="btn hidden" id="submitBtn" onclick="submitTest()">📩 Enviar
+                    Respuestas</button>
+            </div>
+        </div>
+
+        <!-- PANTALLA DE CONFIRMACIÓN -->
+        <div id="results" class="hidden">
+            <!-- <div style="text-align: center; margin-bottom: 30px;">
+        <img src="../../img/one-logocolor.png" alt="one-logocolor" style="max-width: 200px; height: auto;" />
+      </div> -->
+            <h1>Big Five</h1>
+            <p class="subtitle">Test validado</p>
+
+            <div class="confirmation-box">
+                <span class="confirmation-icon" id="confirmIcon">📩</span>
+                <h3 id="confirmTitle">Enviando respuestas…</h3>
+
+                <p id="results-message">Estamos registrando tus respuestas.</p>
+                <div id="finalDynamicArea" style="margin-top:16px;"></div>
+
+                <div id="confirmActions" class="hidden" style="margin-top:16px;">
+                    <button class="btn" type="button" onclick="retrySend()">🔁 Reintentar envío</button>
+                    <button class="btn" type="button" onclick="restartTest()" style="margin-top:12px;">
+                        🧾 Volver al inicio
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

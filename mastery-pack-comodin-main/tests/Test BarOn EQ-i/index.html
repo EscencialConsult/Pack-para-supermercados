@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Bar-On EQ-i (Versión Completa)</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif;
+      min-height: 100vh;
+      padding: 24px;
+      overflow: auto;
+      background-image: url(../../img/fondo-escencial.jpg);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    .container {
+      width: min(850px, 100% - 48px);
+      margin: 24px auto;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      padding: 48px;
+      position: relative;
+    }
+
+    h1 {
+      color: #020f27;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-align: center;
+      letter-spacing: -0.5px;
+      margin-top: 30px;
+    }
+
+    h2 {
+      color: #020f27;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+      letter-spacing: -0.3px;
+    }
+
+    .subtitle {
+      color: #64748b;
+      text-align: center;
+      margin-bottom: 30px;
+      margin-top: 10px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 28px;
+    }
+
+    label {
+      display: block;
+      color: #334155;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background: #fff;
+      text-align: center;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus {
+      outline: none;
+      border-color: #0b4a6e;
+      box-shadow: 0 0 0 4px rgba(11, 74, 110, 0.1);
+      transform: translateY(-2px);
+    }
+
+    input::placeholder {
+      color: #94a3b8;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px 32px;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #fff;
+      background: linear-gradient(135deg, #0b4a6e 0%, #020f27 100%);
+      box-shadow: 0 4px 15px rgba(11, 74, 110, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover:not(:disabled)::before {
+      left: 100%;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(11, 74, 110, 0.4);
+    }
+
+    .btn:active:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .logo {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      height: 64px;
+      width: auto;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 100%);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0b4a6e 0%, #020f27 100%);
+      transition: width 0.4s ease;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(11, 74, 110, 0.3);
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-size: 22px;
+      color: #020f27;
+      font-weight: 700;
+      margin-bottom: 5px;
+      text-align: center;
+      padding-bottom: 16px;
+    }
+
+    .instructions {
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      border-left: 4px solid #0b4a6e;
+      text-align: center;
+    }
+
+    .instructions p {
+      color: #475569;
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .instructions p:last-child {
+      margin-bottom: 0;
+    }
+
+    .question-item {
+      background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+    }
+
+    .question-text {
+      font-size: 16px;
+      color: #020f27;
+      margin-bottom: 16px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .likert-scale {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .likert-option {
+      flex: 1;
+      min-width: 90px;
+      text-align: center;
+    }
+
+    .likert-option input[type="radio"] {
+      display: none;
+    }
+
+    .likert-option label {
+      display: block;
+      padding: 12px 8px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+      line-height: 1.15;
+      text-align: center;
+      min-height: 46px;
+      display: grid;
+      place-items: center;
+    }
+
+    .likert-option input[type="radio"]:checked+label {
+      background: linear-gradient(135deg, #0b4a6e 0%, #020f27 100%);
+      color: #fff;
+      border-color: #020f27;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(11, 74, 110, 0.3);
+    }
+
+    .likert-option label:hover {
+      border-color: #0b4a6e;
+      transform: translateY(-2px);
+    }
+
+    .navigation-buttons {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .navigation-buttons button {
+      flex: 1;
+    }
+
+    .global-index {
+      background: linear-gradient(135deg, #0b4a6e 0%, #020f27 100%);
+      color: #fff;
+      padding: 32px;
+      border-radius: 16px;
+      margin: 24px 0;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(11, 74, 110, 0.4);
+    }
+
+    .global-index-title {
+      font-size: 18px;
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .global-index-score {
+      font-size: 44px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .global-index-classification {
+      font-size: 18px;
+      font-weight: 700;
+      opacity: 0.95;
+    }
+
+    .coherence-flag {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 16px;
+      border-radius: 12px;
+      margin-top: 16px;
+    }
+
+    .coherence-flag p {
+      color: #92400e;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    .dimension-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .dimension-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .dimension-label {
+      min-width: 260px;
+      font-weight: 700;
+      color: #020f27;
+      font-size: 14px;
+    }
+
+    .dimension-bar-wrapper {
+      flex: 1;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      height: 16px;
+      overflow: hidden;
+    }
+
+    .dimension-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0b4a6e 0%, #020f27 100%);
+      border-radius: 9999px;
+    }
+
+    .dimension-score-small {
+      width: 58px;
+      text-align: right;
+      font-weight: 800;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .dimension-card {
+      background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+    }
+
+    .dimension-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: #020f27;
+      margin-bottom: 10px;
+    }
+
+    .dimension-score {
+      font-size: 34px;
+      font-weight: 900;
+      color: #0b4a6e;
+      margin-bottom: 6px;
+    }
+
+    .dimension-classification {
+      font-size: 14px;
+      color: #64748b;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .report-section {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    .report-title {
+      font-size: 14px;
+      font-weight: 900;
+      color: #020f27;
+      margin-bottom: 10px;
+    }
+
+    .report-content {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.75;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 24px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .navigation-buttons {
+        flex-direction: column;
+      }
+
+      .likert-scale {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .likert-option {
+        min-width: 0;
+      }
+
+      .dimension-label {
+        min-width: 160px;
+      }
+    }
+
+    .logo {
+      height: 48px;
+      top: 16px;
+      left: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <img src="../../img/escencial-logo.png" alt="Escencial Consultora" class="logo" />
+
+    <!-- REGISTRO -->
+    <div id="registrationScreen">
+      <h1>Test BarOn EQ-i </h1>
+      <p class="subtitle">
+        Este test nos ayudará a conocerte mejor. Responde con sinceridad y sin presiones.
+        No hay respuestas correctas o incorrectas, solo tu forma de sentir y actuar.<br />
+      </p>
+      <p class="subtitle"> Complete los datos para comenzar.</p>
+
+
+
+      <div class="form-group">
+        <label for="userName">Nombre</label>
+        <input type="text" id="userName" placeholder="Ingrese su nombre" />
+      </div>
+      <div class="form-group">
+        <label for="userLastName">Apellido</label>
+        <input type="text" id="userLastName" placeholder="Ingrese su apellido" />
+      </div>
+      <div class="form-group">
+        <label for="userEmail">Correo electrónico</label>
+        <input type="email" id="userEmail" placeholder="correo@ejemplo.com" />
+      </div>
+
+      <button class="btn" id="startBtn" disabled>Comenzar Test</button>
+    </div>
+
+    <!-- TEST -->
+    <div id="testScreen" class="hidden">
+      <div class="progress-text">
+        <span id="pageIndicator">Sección 1</span>
+        <span id="progressPercent">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="instructions">
+        <p><strong>Instrucciones</strong></p>
+        <p>Responda cada afirmación eligiendo una sola alternativa.</p>
+        <p><strong>Escala:</strong> Nunca · Pocas veces · A veces · Muchas veces · Siempre </p>
+      </div>
+
+      <div id="sectionContainer"></div>
+
+      <div class="navigation-buttons">
+        <button class="btn" id="prevBtn" disabled>Anterior</button>
+        <button class="btn" id="nextBtn" disabled>Siguiente</button>
+      </div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <!-- CONFIRMACIÓN -->
+    <div id="resultsScreen" class="hidden">
+      <h1>Respuestas enviadas</h1>
+
+      <div class="global-index" style="margin-top:18px;">
+        <div class="global-index-title">✅ Listo</div>
+        <div class="global-index-score" style="font-size:22px;font-weight:800;">
+          Hemos registrado tus respuestas correctamente.
+        </div>
+        <div class="global-index-classification" style="font-size:14px;font-weight:600;opacity:.95;">
+          Puedes cerrar esta ventana.
+        </div>
+      </div>
+
+      <div id="finalDynamicArea" style="margin-top:16px;"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { URL_TEST17 } from "../../js/config/constants.js";
+    import { incrementCountAndRenderRetry, getStoredEmail } from "../../js/helpers/finalActions.js";
+    // ================== DATOS ==================
+    const likert = [
+      { label: "Nunca", value: 2 },
+      { label: "Pocas veces", value: 3 },
+      { label: "A veces", value: 4 },
+      { label: "Muchas veces", value: 5 },
+      { label: "Siempre", value: 6 },
+    ];
+
+    // Ítems (1–133) tal como fueron proporcionados
+    const items = [
+      "Para superar las dificultades que se me presentan actuó paso a paso",
+      "Es duro para mi disfrutar la vida",
+      "Prefiero un trabajo en el que se me diga casi todo lo que tengo que hacer",
+      "Sé cómo enfrentar los problemas más desagradables",
+      "Me agradan las personas que conozco",
+      "Trato de valorar y darle el mejor sentido a mi vida",
+      "Me resulta relativamente fácil expresar mis sentimientos",
+      "Trato de ser realista, no me gusta fantasear ni soñar despierto",
+      "Reconozco con facilidad mis emociones",
+      "Soy incapaz de demostrar afecto",
+      "Me siento seguro de mí mismo en la mayoría de situaciones",
+      "Tengo la sensación que algo no está bien en mi cabeza",
+      "Tengo problemas para controlarme cuando me enojo",
+      "Me resulta difícil comenzar cosas nuevas",
+      "Cuando enfrento una situación difícil me gusta reunir toda la información que pueda sobre ella",
+      "Me gusta ayudar a la gente",
+      "Me es difícil sonreír",
+      "Soy incapaz de comprender como se sienten los demás",
+      "Cuando trabajo. Tiendo a confiar más en sus ideas que en las mías",
+      "Creo que puedo controlarme en situaciones muy difíciles",
+      "No sé para que soy bueno",
+      "Soy incapaz de expresar mis ideas",
+      "Me es difícil compartir mis sentimientos más íntimos con los demás",
+      "Me falta confianza en mí mismo",
+      "Creo que he perdido la cabeza",
+      "Soy optimista en la mayoría de las cosas que hago",
+      "Cuando comienzo a hablar me resulta difícil detenerme",
+      "En general, me resulta difícil adaptarme",
+      "Me gusta tener una visión general de un problema antes de intentar solucionarlo",
+      "No me molesta aprovecharme de los demás, especialmente si se lo merecen",
+      "Soy una persona bastante alegre y optimista",
+      "Prefiero que otros tomen decisiones por mi",
+      "Puedo manejar situaciones de estrés, sin ponerme demasiado nervioso",
+      "Pienso bien de las personas",
+      "Me es difícil entender como me siento",
+      "He logrado muy poco en los últimos años",
+      "Cuando estoy enojado con alguien se lo puedo decir",
+      "He tenido experiencia extrañas que no puedo explicar",
+      "Me resulta fácil hacer amigos",
+      "Me tengo mucho respeto",
+      "Hago cosas muy raras",
+      "Soy impulsivo y eso me trae problemas",
+      "Me resulta difícil cambiar de opinión",
+      "Soy bueno para comprender los sentimientos de las personas",
+      "Lo primero que hago cuando tengo un problema es detenerme a pensar",
+      "A la gente de resulta difícil confiar en mi",
+      "Estoy contento con mi vida",
+      "Me resulta difícil tomar decisiones por mi mismo",
+      "No puedo soportar el estrés",
+      "No hago nada malo en mi vida",
+      "No disfruto lo que hago",
+      "Me resulta difícil expresar mis sentimientos más íntimos",
+      "La gente no comprende mi manera de pensar",
+      "Generalmente espero lo mejor",
+      "Mis amigos me confían sus intimidades",
+      "Mo me siento bien conmigo mismo",
+      "Percibo cosas extrañas que los demás no ven",
+      "La gente me dice que baje el tono de voz cuando discuto",
+      "Me resulta fácil adaptarme a situaciones nuevas",
+      "Cuando intento resolver un problema analizo todas las posibles soluciones y luego escojo la que considero mejor",
+      "Me detendría y ayudaría a un niño que llora por encontrar a sus padres, aun cuando tuviese algo que hacer en ese momento",
+      "Soy una persona divertida",
+      "Soy consciente de cómo me siento",
+      "Siento que me resulta difícil controlar mi ansiedad",
+      "Nada me perturba",
+      "No me entusiasman mucho mis intereses",
+      "Cuando estoy en desacuerdo con alguien soy capaz de decírselo",
+      "Tengo tendencia a fantasear y a perder el contacto con lo que ocurre a mi alrededor",
+      "Me es difícil llevarme con los demás",
+      "Me resulta difícil aceptarme como soy",
+      "Me siento como si estuviera separado de mi cuerpo",
+      "Me importa lo que puede sucederle a los demás",
+      "Soy impaciente",
+      "Puedo cambiar mis viejas costumbres",
+      "Me resulta difícil escoger la mejor solución cuando tengo que resolver un problema",
+      "Si pudiera violar la ley sin pagar las consecuencias, lo haría en determinadas situaciones",
+      "Me deprimo",
+      "Sé cómo mantener la calma en situaciones difíciles",
+      "Yo no mentido en mi vida",
+      "En general me siento motivado para continuar adelante, incluso cuando las cosas se ponen difíciles",
+      "Trato de continuar y desarrollar aquellas cosas que me divierten",
+      "Me resulta difícil decir “no” aunque tenga el deseo de hacerlo",
+      "Me dejo llevar por mis imaginación y mis fantasías",
+      "Mis relaciones más cercanas significan mucho, tanto para mí como para mis amigos",
+      "Me siento feliz con el tipo de persona que soy",
+      "Tengo reacciones fuertes, intensas que son difíciles de controlar",
+      "En general, me resulta difícil realizar cambien en mi vida cotidiana",
+      "Soy consciente de lo que me está pasando, aun cuando estoy alterado",
+      "Para poder resolver una situación que se presenta, analizo todas las posibilidades existentes",
+      "Soy capaz de respetar a los demás",
+      "No estoy muy contento con mi vida",
+      "Prefiero seguir otros que ser líder",
+      "Me resulta difícil enfrentar las cosas desagradables de la vida",
+      "Yo no he violado ningún tipo de ley",
+      "Disfruto de las cosas que me interesan",
+      "Me resulta relativamente difícil decirle a la gente lo que pienso",
+      "Tiendo a exagerar",
+      "Soy sensible a los sentimientos de las personas",
+      "Mantengo buenas relaciones con los demás",
+      "Estoy contento con mi cuerpo",
+      "Soy una persona muy extraña",
+      "Soy impulsivo",
+      "Me resulta difícil cambiar mis costumbres",
+      "Considero que es muy importante ser un ciudadano que respeta la ley",
+      "Disfruto las vacaciones y los fines de semana",
+      "En general tengo una actitud positiva para todos, aun cuando surgen problemas",
+      "Tengo tendencia a depender de otros",
+      "Creo en mi capacidad para manejar los problemas más difíciles",
+      "No me siento avergonzado por nada de lo que haya hecho",
+      "Trato de aprovechar al máximo las cosas que me gustan y me divierten",
+      "Los demás piensan que no me hago valor, que me falta firmeza",
+      "Soy capaz de dejar de fantasear para volver a ponerme en contacto con la realidad",
+      "Los demás opinan que soy una persona sociable",
+      "Estoy contento con la forma en que me veo",
+      "Tengo pensamientos extraños que los demás no logran entender",
+      "Me es difícil describir lo que siento",
+      "Tengo mal carácter",
+      "Por lo general, me trabo cuando pienso acerca de las diferentes maneras de resolver un problema",
+      "Me es difícil ver sufrir a la gente",
+      "Me gusta divertirme",
+      "Me parece que necesito de los demás más de lo que ellos me necesitan",
+      "Me pongo ansioso",
+      "Yo no tengo días malos",
+      "Intento no herir los sentimientos de los demás",
+      "No tengo una buena idea de lo que quiero en la vida",
+      "Me es difícil hacer valer mis derechos",
+      "Es duro para mi ser realista",
+      "No mantengo relación con mis amistades",
+      "Haciendo un balance de mis puntos positivos y negativos me siento bien conmigo mismo",
+      "Tengo una tendencia a explotar de cólera fácilmente",
+      "Si me viera obligado a dejar mi casa actual, me sería difícil adaptarme nuevamente",
+      "En general, cuando comienzo algo nuevo tengo la sensación que voy a fracasar",
+      "He respondido sincera y honestamente las frases anteriores"
+    ];
+
+    // ================== ESTRUCTURA DE SECCIONES ==================
+    const CHUNK = 10; // ítems por página
+    function buildSections() {
+      const arr = [];
+      for (let i = 0; i < items.length; i += CHUNK) {
+        arr.push({ start: i, end: Math.min(i + CHUNK, items.length) });
+      }
+      return arr;
+    }
+    const sections = buildSections();
+
+    // ================== ESTADO ==================
+    let userName = "", userLastName = "", userEmail = "";
+    let currentSection = 0;
+    // answers: { 1: 2..6, 2: 2..6, ... } (ítems 1-based)
+    let answers = {};
+
+    // ================== UI INICIO ==================
+    const nameInput = document.getElementById("userName");
+    const lastNameInput = document.getElementById("userLastName");
+    const emailInput = document.getElementById("userEmail");
+    const startBtn = document.getElementById("startBtn");
+
+    function emailOk(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+    function updateStartState() {
+      startBtn.disabled = !(nameInput.value.trim() && lastNameInput.value.trim() && emailOk(emailInput.value.trim()));
+    }
+    nameInput.addEventListener("input", updateStartState);
+    lastNameInput.addEventListener("input", updateStartState);
+    emailInput.addEventListener("input", updateStartState);
+
+    startBtn.addEventListener("click", startTest);
+    document.getElementById("prevBtn").addEventListener("click", previousSection);
+    document.getElementById("nextBtn").addEventListener("click", nextSection);
+
+
+    function startTest() {
+      userName = nameInput.value.trim();
+      userLastName = lastNameInput.value.trim();
+      userEmail = emailInput.value.trim();
+      document.getElementById("registrationScreen").classList.add("hidden");
+      document.getElementById("testScreen").classList.remove("hidden");
+      renderSection();
+    }
+
+    // ================== RENDER ==================
+    function renderSection() {
+      const s = sections[currentSection];
+      const container = document.getElementById("sectionContainer");
+
+      container.innerHTML = `
+        <div class="section-title">Ítems ${s.start + 1} – ${s.end}</div>
+        ${items.slice(s.start, s.end).map((txt, idx) => {
+        const itemNumber = s.start + idx + 1; // 1-based
+        const group = `q_${itemNumber}`;
+        return `
+            <div class="question-item">
+              <div class="question-text">${itemNumber}. ${txt}</div>
+              <div class="likert-scale">
+                ${likert.map(opt => `
+                  <div class="likert-option">
+                    <input type="radio"
+                      id="${group}_${opt.value}"
+                      name="${group}"
+                      value="${opt.value}"
+                      ${answers[itemNumber] == opt.value ? "checked" : ""}
+                      onchange="saveAnswer(${itemNumber}, ${opt.value})"
+                    />
+                    <label for="${group}_${opt.value}">${opt.label}</label>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          `;
+      }).join("")}
+      `;
+
+      updateProgress();
+      updateNavigationButtons();
+    }
+
+    function saveAnswer(itemNumber, value) {
+      answers[itemNumber] = value;
+      updateNavigationButtons();
+    }
+    window.saveAnswer = saveAnswer;
+
+    function isSectionComplete() {
+      const s = sections[currentSection];
+      for (let i = s.start + 1; i <= s.end; i++) {
+        if (!(i in answers)) return false;
+      }
+      return true;
+    }
+
+    function updateNavigationButtons() {
+      document.getElementById("prevBtn").disabled = currentSection === 0;
+      const next = document.getElementById("nextBtn");
+      next.disabled = !isSectionComplete();
+      next.textContent = (currentSection === sections.length - 1) ? "Calcular resultados" : "Siguiente";
+    }
+
+    function updateProgress() {
+      const total = sections.length;
+      const p = ((currentSection + 1) / total) * 100;
+      document.getElementById("progressFill").style.width = p + "%";
+      document.getElementById("progressPercent").textContent = Math.round(p) + "%";
+      document.getElementById("pageIndicator").textContent = `Sección ${currentSection + 1} de ${total}`;
+    }
+
+    function previousSection() {
+      if (currentSection > 0) {
+        currentSection--;
+        renderSection();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+
+    function nextSection() {
+      if (currentSection < sections.length - 1) {
+        currentSection++;
+        renderSection();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        calculateResults();
+      }
+    }
+
+    // ================== CÁLCULOS (según tu manual) ==================
+    // Helper: suma de ítems por número (1-based)
+    function sumItems(itemNums) {
+      return itemNums.reduce((acc, n) => acc + (parseFloat(answers[n]) || 0), 0);
+    }
+
+    // Normalización a 0–100 para comparación (min=2, max=6 por ítem)
+    function toPct(raw, nItems) {
+      const min = nItems * 2;
+      const max = nItems * 6;
+      const pct = ((raw - min) / (max - min)) * 100;
+      return Math.max(0, Math.min(100, pct));
+    }
+
+    // Clasificación según umbrales del manual (usando puntaje 0–100)
+    function classifyLevel(pct) {
+      if (pct >= 100) return "ALTO";
+      if (pct >= 70) return "MEDIO";
+      if (pct >= 25) return "BAJO";
+      return "MUY BAJO";
+    }
+
+    // Textos de interpretación (los que compartiste)
+    const interpretations = {
+      AC: {
+        ALTO: { text: "Sentimientos plenos y satisfechos consigo mismo: aceptan aspectos positivos y negativos de sí mismos, sus limitaciones y posibilidades.", estado: "APTO" },
+        MEDIO: { text: "Moderada manejo de sentimientos plenos y satisfechos consigo mismo; tienden a aceptarse en relación a aspectos positivos y negativos de sí mismos, limitaciones y posibilidades.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Inadecuada capacidad para aceptarse a sí mismo, sentimientos de inferioridad.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Inadecuada capacidad para aceptarse a sí mismo, sentimientos de inferioridad.", estado: "NO APTO" }
+      },
+      AR: {
+        ALTO: { text: "Muy buena capacidad de desarrollar su potencial, comprometidos en proyectos que conducen a una vida significativa, valiosa y plena. Saben sus metas.", estado: "APTO" },
+        MEDIO: { text: "Moderada capacidad de desarrollar su potencial, tienden a comprometerse en proyectos que conducen a una vida significativa, valiosa y plena, pero no siempre cumplen sus metas.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Inadecuada capacidad de desarrollar su potencial, no se comprometen en proyectos que conducen a una vida significativa, valiosa y plena. No tienen metas ni objetivos.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Inadecuada capacidad de desarrollar su potencial, no se comprometen en proyectos que conducen a una vida significativa, valiosa y plena. No tienen metas ni objetivos.", estado: "NO APTO" }
+      },
+      SP: {
+        ALTO: { text: "Altamente hábiles para reconocer y definir problemas, así como para generar e implementar soluciones potencialmente efectivas.", estado: "APTO" },
+        MEDIO: { text: "Moderadamente hábiles para reconocer y definir problemas, así como para generar e implementar soluciones potencialmente efectivas.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Inadecuada capacidad para reconocer y definir problemas, así como para generar e implementar soluciones potencialmente efectivas. Evitan la resolución de problemas.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Inadecuada capacidad para reconocer y definir problemas, así como para generar e implementar soluciones potencialmente efectivas. Evitan la resolución de problemas.", estado: "NO APTO" }
+      },
+      FL: {
+        ALTO: { text: "Buena capacidad para adecuar sus emociones, sentimientos, pensamientos y comportamientos a situaciones y condiciones cambiantes.", estado: "APTO" },
+        MEDIO: { text: "Moderada capacidad para adecuar sus emociones, sentimientos, pensamientos y comportamientos a situaciones y condiciones cambiantes.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Incapacidad para adecuar sus emociones, sentimientos, pensamientos y comportamientos a situaciones y condiciones cambiantes.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Incapacidad para adecuar sus emociones, sentimientos, pensamientos y comportamientos a situaciones y condiciones cambiantes.", estado: "NO APTO" }
+      },
+      RS: {
+        ALTO: { text: "Altamente confiables, colaboradores, miembros constructivos en grupos sociales. Responsables aún sin beneficios personales.", estado: "APTO" },
+        MEDIO: { text: "Adecuada confianza, poco colaboradores, miembros constructivos en grupos sociales. Tienden a ser responsables.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Desconfiables, nada colaboradores, miembros no constructivos en grupos sociales. Irresponsables.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Desconfiables, nada colaboradores, miembros no constructivos en grupos sociales. Irresponsables.", estado: "NO APTO" }
+      },
+      PR: {
+        ALTO: { text: "Excelente capacidad de evaluar entre lo que experimentan (subjetivo) y lo que en realidad existe (objetivo). Realistas, sintonizan con su entorno. Activos.", estado: "APTO" },
+        MEDIO: { text: "Adecuada capacidad de evaluar entre lo que experimentan (subjetivo) y lo que en realidad existe (objetivo). Realistas, tiende a sintonizar con su entorno. Muchas veces activos.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Inadecuada capacidad de evaluar entre lo que experimentan (subjetivo) y lo que en realidad existe (objetivo). Adoptan una pasiva o ingenua actitud.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Inadecuada capacidad de evaluar entre lo que experimentan (subjetivo) y lo que en realidad existe (objetivo). Adoptan una pasiva o ingenua actitud.", estado: "NO APTO" }
+      },
+      IN: {
+        ALTO: { text: "Alta confianza en sí misma, mucha fuerza interior, piensan y actúan de forma autónoma, buena capacidad para tomar decisiones importantes. Satisfacen necesidades emocionales.", estado: "APTO" },
+        MEDIO: { text: "Moderada confianza en sí misma, relativa fuerza interior, tratan de pensar y actuar de forma autónoma, adecuada capacidad para tomar decisiones importantes. Tienden a la satisfacción de sus necesidades emocionales.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Desconfianza en sí misma, no tienen fuerza interior, piensan y actúan de forma dependiente, incapaces de tomar decisiones importantes. No satisfacen necesidades emocionales.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Desconfianza en sí misma, no tienen fuerza interior, piensan y actúan de forma dependiente, incapaces de tomar decisiones importantes. No satisfacen necesidades emocionales.", estado: "NO APTO" }
+      },
+      EN: {
+        ALTO: { text: "Altamente conscientes de los sentimientos de otros, excelente valoración por los demás. Sensibles, comprensibles. Se preocupan e interesan por los demás.", estado: "APTO" },
+        MEDIO: { text: "Moderada conciencia de los sentimientos de otros, escasa valoración. Sensibles, comprensibles. Adecuada preocupación e interés por los demás.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Inconscientes de los sentimientos de otros, no los valoran. Insensibles, Incomprensibles. No se preocupan e interesan por los demás.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Inconscientes de los sentimientos de otros, no los valoran. Insensibles, Incomprensibles. No se preocupan e interesan por los demás.", estado: "NO APTO" }
+      },
+      RI: {
+        ALTO: { text: "Buena capacidad para establecer y mantener relaciones mutuamente satisfactorias. Muy buena capacidad de intimar con otros, dar y recibir afecto.", estado: "APTO" },
+        MEDIO: { text: "Adecuada capacidad para establecer y mantener relaciones mutuamente satisfactorias. Así como de intimar con otros, dar y recibir afecto.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Les cuesta establecer y mantener relaciones mutuamente satisfactorias. Incapaces de intimar con otros, dar y recibir afecto.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Les cuesta establecer y mantener relaciones mutuamente satisfactorias. Incapaces de intimar con otros, dar y recibir afecto.", estado: "NO APTO" }
+      },
+      CEAG: {
+        ALTO: { text: "Altamente optimistas, positivas, alegres, saben disfrutar de la vida, tienen un componente motivacional que les permite manejar el estrés, solucionar problemas e interactuar con los demás.", estado: "APTO" },
+        MEDIO: { text: "Medianamente optimistas, positivas, alegres, les cuesta disfrutar de la vida, componente motivacional promedio que les permite manejar el estrés, solucionar problemas e interactuar con los demás.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Personas negativistas, tristes, les cuesta disfrutar de la vida, no tienen motivación por ello les es difícil solucionar problemas e interactuar con los demás.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Personas negativistas, tristes, les cuesta disfrutar de la vida, no tienen motivación por ello les es difícil solucionar problemas e interactuar con los demás.", estado: "NO APTO" }
+      },
+      CM: {
+        ALTO: { text: "Buen manejo de la capacidad de contacto con sus sentimientos y emociones, saben lo que están sintiendo y entienden porque se sienten de ésta manera.", estado: "APTO" },
+        MEDIO: { text: "Adecuado manejo de la capacidad de contacto con sus sentimientos y emociones, se acomodan a lo que están sintiendo y tratan de entender porque se sienten de ésta manera.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Inadecuado de la capacidad de contacto con sus sentimientos y emociones, no saben lo que están sintiendo y desentienden porque se sienten de ésta manera.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Inadecuado de la capacidad de contacto con sus sentimientos y emociones, no saben lo que están sintiendo y desentienden porque se sienten de ésta manera.", estado: "NO APTO" }
+      },
+      AS: {
+        ALTO: { text: "Excelente capacidad de expresar sus sentimientos, pensamientos y creencias de modo abierto y franco defienden sus derechos en una forma no destructiva.", estado: "APTO" },
+        MEDIO: { text: "Relativa capacidad de expresar sus sentimientos, pensamientos y creencias de modo abierto y franco. Tienden a la defensa de sus derechos en una forma no destructiva.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Se limitan por pensamientos incómodos de timidez o vergüenza.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Se limitan por pensamientos incómodos de timidez o vergüenza.", estado: "NO APTO" }
+      },
+      CEIA: {
+        ALTO: { text: "Buen manejo en la expresión de sentimientos, independientes, confianza en la realización de ideas y creencias. Acertado contacto con sentimientos, se sienten bien consigo mismo, son positivos en relación al logro personal.", estado: "APTO" },
+        MEDIO: { text: "Adecuado manejo en la expresión de sentimientos, independientes, relativa confianza en la realización de ideas y creencias. Aceptable contacto con sentimientos, interés por sentirse bien consigo mismo, tendencia a lo positivo en relación al logro personal.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Inadecuado manejo en la expresión de sentimientos, dependientes, desconfiados en la realización de ideas y creencias. Mal contacto con sentimientos, se sienten mal consigo mismo, son pesimistas en relación al logro personal.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Inadecuado manejo en la expresión de sentimientos, dependientes, desconfiados en la realización de ideas y creencias. Mal contacto con sentimientos, se sienten mal consigo mismo, son pesimistas en relación al logro personal.", estado: "NO APTO" }
+      },
+      CEIE: {
+        ALTO: { text: "Excelente manejo de las relaciones interpersonales; responsables y fiables en relación a sus habilidades sociales. Se comprenden e interactúan con los demás.", estado: "APTO" },
+        MEDIO: { text: "Regular manejo de sus relaciones interpersonales; responsables y fiables en relación a sus habilidades sociales. Tendencia a la comprensión y a interactuar con los demás.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Manejo inadecuado de las relaciones interpersonales; irresponsables y nada confiables en relación a sus habilidades sociales. No se comprenden e interactúan con los demás.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Manejo inadecuado de las relaciones interpersonales; irresponsables y nada confiables en relación a sus habilidades sociales. No se comprenden e interactúan con los demás.", estado: "NO APTO" }
+      },
+      TE: {
+        ALTO: { text: "Excelente capacidad de resistir los eventos adversos y las situaciones estresantes. Enfrentan al estrés activa y positivamente. Calmados.", estado: "APTO" },
+        MEDIO: { text: "Adecuada capacidad de resistir los eventos adversos y las situaciones estresantes. Tendencia a enfrentar al estrés activa y positivamente. Relativamente calmados.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Incapaces de resistir los eventos adversos y las situaciones estresantes. No enfrentan al estrés activa y positivamente. No mantienen la calma, se sobresaltan, ansiosos.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Incapaces de resistir los eventos adversos y las situaciones estresantes. No enfrentan al estrés activa y positivamente. No mantienen la calma, se sobresaltan, ansiosos.", estado: "NO APTO" }
+      },
+      CI: {
+        ALTO: { text: "Excelente autocontrol. Muy buena capacidad para resistir o demorar sus impulsos y controlar sus arranques y tentaciones.", estado: "APTO" },
+        MEDIO: { text: "Moderado autocontrol. Adecuada capacidad para resistir o demorar sus impulsos y controlar sus arranques y tentaciones.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "No controlan sus impulsos. Siempre se impacientan, se sobresaltan sin controlar arranques y tentaciones.", estado: "NO APTO" },
+        "MUY BAJO": { text: "No controlan sus impulsos. Siempre se impacientan, se sobresaltan sin controlar arranques y tentaciones.", estado: "NO APTO" }
+      },
+      FE: {
+        ALTO: { text: "Excelente manejo de sus propias vidas, disfrutan de la compañía de los demás y tienen la capacidad de obtener placer de la vida. Disposición feliz y son agradables.", estado: "APTO" },
+        MEDIO: { text: "Existen indicativos para el manejo de sus propias vidas, disfrutan de la compañía de los demás, tendencia a la capacidad de obtener placer de la vida.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Inadecuado manejo de sus propias vidas, no disfrutan de la compañía de los demás y tienen la poca capacidad de obtener placer de la vida. Disposición de infelicidad, nada agradables.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Inadecuado manejo de sus propias vidas, no disfrutan de la compañía de los demás y tienen la poca capacidad de obtener placer de la vida. Disposición de infelicidad, nada agradables.", estado: "NO APTO" }
+      },
+      OP: {
+        ALTO: { text: "Muy capaces de buscar el lado más provechoso de la vida y mantener una actitud positiva, aún cuando se afronta adversidades.", estado: "APTO" },
+        MEDIO: { text: "Adecuada capacidad de buscar el lado más provechoso de la vida y mantener una actitud positiva, aún cuando se afronta adversidades.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Incapaces de buscar el lado más provechoso de la vida y mantener una actitud positiva, aún cuando se afronta adversidades.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Incapaces de buscar el lado más provechoso de la vida y mantener una actitud positiva, aún cuando se afronta adversidades.", estado: "NO APTO" }
+      },
+      CEAD: {
+        ALTO: { text: "Altamente flexibles, realistas, efectivas para entender situaciones problemáticas y hábiles para llegar a soluciones asertivas, excelente manejo en dificultades diarias.", estado: "APTO" },
+        MEDIO: { text: "Moderadamente flexibles, realistas, entienden situaciones problemáticas, tratan de llegar a soluciones adecuadas, así como al manejo de dificultades diarias.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "Personas no flexibles, idealistas, nada efectivas para entender situaciones problemáticas, nada hábiles para llegar a soluciones asertivas, deficiente manejo en las dificultades diarias.", estado: "NO APTO" },
+        "MUY BAJO": { text: "Personas no flexibles, idealistas, nada efectivas para entender situaciones problemáticas, nada hábiles para llegar a soluciones asertivas, deficiente manejo en las dificultades diarias.", estado: "NO APTO" }
+      },
+      CEME: {
+        ALTO: { text: "Buena resistencia al estrés sin “desmoronarse” o perder el control, personas calmadas, rara vez impulsivos y trabajan bajo presión. Buen manejo de la tensión y ansiedad.", estado: "APTO" },
+        MEDIO: { text: "Adecuada resistencia al estrés, regular manejo de su autocontrol, se adecuan al trabajo bajo presión, tratan de manejar la tensión y ansiedad.", estado: "APTO CON SUPERVISION" },
+        BAJO: { text: "No resisten al estrés sin “desmoronarse”, pierden el control, personas impulsivas, no se adecuan al trabajo bajo presión, inadecuado manejo de la tensión y ansiedad.", estado: "NO APTO" },
+        "MUY BAJO": { text: "No resisten al estrés sin “desmoronarse”, pierden el control, personas impulsivas, no se adecuan al trabajo bajo presión, inadecuado manejo de la tensión y ansiedad.", estado: "NO APTO" }
+      }
+    };
+
+    function interpFor(code, level) {
+      const obj = interpretations[code];
+      if (!obj) return { text: "Interpretación no configurada en el manual provisto.", estado: "-" };
+      return obj[level] || obj["BAJO"] || { text: "Interpretación no configurada.", estado: "-" };
+    }
+
+    // ================== RESULTADOS ==================
+    function calculateResults() {
+      // Validación básica: respuestas completas
+      if (Object.keys(answers).length !== 133) {
+        alert("Faltan respuestas. Verifique que los 133 ítems estén completados.");
+        return;
+      }
+
+      // ✅ Enviar datos a Google Sheets
+      sendToGoogleSheets();
+
+      // ✅ Mostrar solo confirmación
+      showConfirmationOnly();
+
+      // (Opcional) limpiar memoria para evitar re-envíos si vuelven atrás
+      answers = {};
+    }
+    function showConfirmationOnly() {
+      document.getElementById("testScreen").classList.add("hidden");
+      document.getElementById("resultsScreen").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyS9pk9EvxG8An-P3PQCi7f4SYngCiLubyF5X-e6oM3NzuuQexyF7VHRsoBD97oc59E_g/exec";
+    // ================== ENVÍO A GOOGLE SHEETS ==================
+    async function sendToGoogleSheets() {
+      // FechaHora (estilo IPP-R)
+      const now = new Date();
+      const fechaHora = now.toLocaleString("es-AR", {
+        day: "2-digit", month: "2-digit", year: "numeric",
+        hour: "2-digit", minute: "2-digit", second: "2-digit",
+        hour12: false
+      });
+
+      // ✅ BarOn: "Respuestas" como STRING CSV: "5,4,6,5,..."
+      const respuestasFinal = Array.from({ length: 133 }, (_, idx) => {
+        const i = idx + 1;         // 1..133
+        return answers[i] ?? "";   // si faltara algo, queda vacío
+      }).join(",");
+
+      // ✅ Formato EXACTO pedido
+      const filaOrdenada = [
+        fechaHora,
+        userName || "SinNombre",
+        userLastName || "SinApellido",
+        getStoredEmail() || "",
+        respuestasFinal
+      ];
+
+      const payload = {
+        nombreHoja: "Respuestas",
+        fila: filaOrdenada
+      };
+
+      try {
+        await fetch(URL_TEST17, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        console.log("✅ Enviado con formato requerido (URL_TEST17).");
+        incrementCountAndRenderRetry();
+      } catch (error) {
+        console.error("❌ Error enviando:", error);
+      }
+    }
+
+    function globalBrief(pct) {
+      if (pct >= 80) return "Perfil emocional global alto en términos relativos (según la normalización interna 0–100 usada para visualización).";
+      if (pct >= 65) return "Perfil global adecuado con oportunidades de mejora en áreas específicas.";
+      if (pct >= 50) return "Perfil global funcional pero con variabilidad; conviene priorizar subescalas más bajas.";
+      return "Perfil global bajo; se sugiere análisis profesional y plan de desarrollo focalizado.";
+    }
+
+    function showResults(r) {
+      document.getElementById("testScreen").classList.add("hidden");
+      document.getElementById("resultsScreen").classList.remove("hidden");
+
+      // Validez
+      const v = document.getElementById("validityBox");
+      if (r.flags.length) {
+        v.innerHTML = `
+          <div class="coherence-flag">
+            <p><strong>⚠ Observaciones de validez</strong><br>${r.flags.map(x => "• " + x).join("<br>")}</p>
+          </div>
+        `;
+      } else {
+        v.innerHTML = `
+          <div class="coherence-flag" style="background:#ecfeff;border-left-color:#06b6d4;">
+            <p style="color:#0e7490;"><strong>✓ Validez básica</strong><br>No se detectaron alertas básicas (según reglas configuradas).</p>
+          </div>
+        `;
+      }
+
+      // CE Total
+      document.getElementById("globalScore").textContent = r.CE_total_pct.toFixed(1);
+      document.getElementById("globalClassification").textContent = "Puntaje normalizado 0–100 (para visualización)";
+      document.getElementById("globalBrief").textContent = globalBrief(r.CE_total_pct);
+
+      // Barras compuestas (ordenadas)
+      const orderedComp = [...r.composites].sort((a, b) => b.pct - a.pct);
+      let barsHTML = `<div class="dimension-list">`;
+      orderedComp.forEach((c, idx) => {
+        barsHTML += `
+          <div class="dimension-row">
+            <div class="dimension-label">${idx + 1}. ${c.name}</div>
+            <div class="dimension-bar-wrapper">
+              <div class="dimension-bar-fill" style="width:${c.pct.toFixed(1)}%;"></div>
+            </div>
+            <div class="dimension-score-small">${c.pct.toFixed(1)}%</div>
+          </div>
+        `;
+      });
+      barsHTML += `</div>`;
+      document.getElementById("compositesBars").innerHTML = barsHTML;
+
+      // Cards subescalas (mostramos todas; con interpretación donde exista)
+      const subOrder = [
+        { code: "CM", name: "Comprensión de Sí Mismo (CM)" },
+        { code: "AS", name: "Asertividad (AS)" },
+        { code: "AC", name: "Autoconcepto (AC)" },
+        { code: "AR", name: "Autorrealización (AR)" },
+        { code: "IN", name: "Independencia (IN)" },
+        { code: "RI", name: "Relaciones Interpersonales (RI)" },
+        { code: "RS", name: "Responsabilidad Social (RS)" },
+        { code: "EN", name: "Empatía (EN)" },
+        { code: "SP", name: "Solución de Problemas (SP)" },
+        { code: "PR", name: "Prueba de la Realidad (PR)" },
+        { code: "FL", name: "Flexibilidad (FL)" },
+        { code: "TE", name: "Tolerancia al Estrés (TE)" },
+        { code: "CI", name: "Control de Impulsos (CI)" },
+        { code: "FE", name: "Felicidad (FE)" },
+        { code: "OP", name: "Optimismo (OP)" },
+      ];
+
+      // También mostramos interpretación de compuestas si existe en el manual provisto
+      const compositeCards = [
+        { code: "CEIA", name: "INTRAPERSONAL (CEIA)", pct: orderedComp.find(x => x.code === "CEIA")?.pct ?? 0 },
+        { code: "CEIE", name: "INTERPERSONAL (CEIE)", pct: orderedComp.find(x => x.code === "CEIE")?.pct ?? 0 },
+        { code: "CEAD", name: "ADAPTABILIDAD (CEAD)", pct: orderedComp.find(x => x.code === "CEAD")?.pct ?? 0 },
+        { code: "CEME", name: "MANEJO DEL ESTRÉS (CEME)", pct: orderedComp.find(x => x.code === "CEME")?.pct ?? 0 },
+        { code: "CEAG", name: "ESTADO DE ÁNIMO GENERAL (CEAG)", pct: orderedComp.find(x => x.code === "CEAG")?.pct ?? 0 },
+      ];
+
+      let cards = "";
+
+      // Primero: compuestas (con interpretación si está)
+      compositeCards.forEach(c => {
+        const level = classifyLevel(c.pct);
+        const it = interpFor(c.code, level);
+        cards += `
+          <div class="dimension-card">
+            <div class="dimension-name">${c.name}</div>
+            <div class="dimension-score">${c.pct.toFixed(1)}%</div>
+            <div class="dimension-classification">Nivel: ${level} · Estado: ${it.estado}</div>
+            <div class="report-section">
+              <div class="report-title">Interpretación</div>
+              <div class="report-content">${it.text}</div>
+            </div>
+          </div>
+        `;
+      });
+
+      // Luego: subescalas
+      subOrder.forEach(s => {
+        const pct = r.subPct[s.code];
+        const level = classifyLevel(pct);
+        const it = interpFor(s.code, level);
+        cards += `
+          <div class="dimension-card">
+            <div class="dimension-name">${s.name}</div>
+            <div class="dimension-score">${pct.toFixed(1)}%</div>
+            <div class="dimension-classification">Nivel: ${level} · Estado: ${it.estado}</div>
+            <div class="report-section">
+              <div class="report-title">Interpretación</div>
+              <div class="report-content">${it.text}</div>
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById("subscalesCards").innerHTML = cards;
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function restartTest() {
+      currentSection = 0;
+      answers = {};
+      userName = "";
+      userLastName = "";
+      userEmail = "";
+      nameInput.value = "";
+      lastNameInput.value = "";
+      emailInput.value = "";
+      updateStartState();
+      document.getElementById("resultsScreen").classList.add("hidden");
+      document.getElementById("registrationScreen").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+</body>
+
+</html>

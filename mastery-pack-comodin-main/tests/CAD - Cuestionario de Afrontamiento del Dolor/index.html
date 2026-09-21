@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAD - Cuestionario de Afrontamiento del Dolor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- BOTÓN VOLVER AL PANEL -->
+<div class="back-panel-bottom">
+  <button class="btn-back-panel" onclick="volverAlPanelUsuarios()">
+    ← Volver al catálogo
+  </button>
+</div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header" style="display: flex; align-items: center; justify-content: space-between; padding: 20px; background-color: white; border-radius: 15px; margin-bottom: 20px;">
+    <div style="display: flex; align-items: center; gap: 20px; width: 100%;">
+      <div style="flex: 1;">
+        <img src="../../img/escencial-logo.png" alt="Escencial Consultora" style="width: 250px; height: auto; display: block;" />
+      </div>
+      <div style="flex: 2; text-align: right;">
+        <h1 id="pageTitle" style="margin: 0; font-size: 24px; color: #1a2a3a; line-height: 1.2; font-family: sans-serif;">
+          CAD - Cuestionario de Afrontamiento del Dolor
+        </h1>
+        <div id="timerDisplay" class="timer-badge" style="display:none; margin-top: 8px; display: inline-block; display: none;">00:00</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== REGISTRO ========== -->
+  <div id="loginSection" class="section active">
+    <h2 style="margin-bottom: 20px; color: #0f172a;">Registro del Evaluado</h2>
+    <div class="form-group">
+      <label>Nombre</label>
+      <input type="text" id="userName" class="form-input" placeholder="Ingrese su nombre">
+    </div>
+    <div class="form-group">
+      <label>Apellido</label>
+      <input type="text" id="userLast" class="form-input" placeholder="Ingrese su apellido">
+    </div>
+    <div class="form-group">
+      <label>Email del Evaluado</label>
+      <input type="email" id="userEmail" class="form-input" placeholder="Ingrese su correo electrónico">
+    </div>
+    <!-- <div class="form-group">
+      <label>Email del Administrador</label>
+      <input type="email" id="adminEmail" class="form-input" placeholder="Ingrese el correo del administrador">
+    </div> -->
+    <button class="btn" onclick="goToInstructions()">Continuar</button>
+  </div>
+
+  <!-- ========== INSTRUCCIONES ========== -->
+  <div id="instSection" class="section">
+    <h2 style="margin-bottom: 20px; color: #0f172a;">Instrucciones Generales</h2>
+    <div class="instructions-box">
+      <p>El <strong>Cuestionario de Afrontamiento del Dolor (CAD)</strong> es un instrumento autoadministrado para la detección de estrategias de afrontamiento del dolor crónico.</p>
+      <br>
+      <p>Este cuestionario consta de <strong>31 ítems</strong> que exploran <strong>seis estrategias de afrontamiento</strong>:</p>
+      <br>
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom: 8px;">🙏 <strong>Religión</strong> - Uso de la fe y la espiritualidad</li>
+        <li style="margin-bottom: 8px;">💬 <strong>Catarsis / Búsqueda de apoyo socioemocional</strong> - Expresión emocional y apoyo social</li>
+        <li style="margin-bottom: 8px;">🎯 <strong>Distracción</strong> - Desviar la atención del dolor</li>
+        <li style="margin-bottom: 8px;">🧠 <strong>Autocontrol mental</strong> - Control cognitivo del dolor</li>
+        <li style="margin-bottom: 8px;">💪 <strong>Autoafirmación</strong> - Fortaleza y determinación personal</li>
+        <li style="margin-bottom: 8px;">🔍 <strong>Búsqueda de información / apoyo instrumental</strong> - Obtención de ayuda práctica</li>
+      </ul>
+      <br>
+      <p><strong>Instrucciones:</strong></p>
+      <ul>
+        <li>Lea cada afirmación cuidadosamente</li>
+        <li>Responda según su experiencia habitual ante el dolor</li>
+        <li>No hay respuestas correctas o incorrectas</li>
+        <li>Use la escala de A (Totalmente de acuerdo) a E (Totalmente en desacuerdo)</li>
+        <li>Tiempo estimado: 10-15 minutos</li>
+      </ul>
+    </div>
+    <button class="btn" onclick="startCAD()">COMENZAR CUESTIONARIO</button>
+  </div>
+
+  <!-- ========== CUESTIONARIO CAD ========== -->
+  <div id="cadSection" class="section">
+    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+      <h3 style="color: #0f172a;">Cuestionario de Afrontamiento del Dolor</h3>
+      <span class="section-badge badge-cad">31 ítems</span>
+    </div>
+
+    <!-- Leyenda de escala -->
+    <div class="scale-legend">
+      <span><span class="ltr">A</span> Totalmente de acuerdo</span>
+      <span><span class="ltr">B</span> Ligeramente de acuerdo</span>
+      <span><span class="ltr">C</span> Ni Sí ni No</span>
+      <span><span class="ltr">D</span> Ligeramente en desacuerdo</span>
+      <span><span class="ltr">E</span> Totalmente en desacuerdo</span>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar"><div id="progressBarCAD" class="progress-fill" style="width: 0%"></div></div>
+      <div class="progress-info">
+        <span class="progress-text">Respondidas: <span id="progressCountCAD">0</span> / 31</span>
+        <span class="progress-percentage" id="progressPercentCAD">0%</span>
+      </div>
+    </div>
+    <div id="questionsContainerCAD" class="test-wrapper"></div>
+    <button class="btn" style="margin-top: 20px;" onclick="finishCAD()">FINALIZAR CUESTIONARIO</button>
+  </div>
+
+  <!-- ========== FINAL ========== -->
+  <div id="finalSection" class="section final-section">
+    <h2 style="color: #059669;">¡Cuestionario CAD Completado!</h2>
+    <div style="font-size: 60px; margin: 20px 0;">✅</div>
+    <p>Ha completado el Cuestionario de Afrontamiento del Dolor.</p>
+    <p style="margin-top: 10px;">Sus respuestas han sido registradas correctamente.</p>
+    <div id="loadingMsg" style="margin-top:20px; color:#0b4a6e; font-weight:bold;">Guardando datos...</div>
+    <div id="finalDynamicArea" style="margin-top:16px;"></div>
+  </div>
+
+</div>
+
+<script type="module" src="script.js"></script>
+
+</body>
+</html>

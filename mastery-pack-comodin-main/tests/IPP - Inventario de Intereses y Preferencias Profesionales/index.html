@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPP - Inventario de Intereses y Preferencias Profesionales</title>
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="32x32">
+  <link rel="shortcut icon" href="../../img/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../img/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* === ESTILOS GLOBALES === */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      background-image: url('../../img/fondo-escencial.jpg'); 
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      padding: 24px;
+      color: #1e293b;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #e2e8f0;
+    }
+    .header h1 { color: #0f172a; font-size: 22px; font-weight: 700; }
+    .timer-badge {
+      background: #0b4a6e; color: white; padding: 8px 16px; border-radius: 12px;
+      font-size: 18px; font-weight: 700; box-shadow: 0 4px 6px rgba(11, 74, 110, 0.2);
+    }
+    
+    /* SECCIONES */
+    .section { display: none; animation: fadeIn 0.4s ease-in-out; }
+    .section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* FORMULARIOS */
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; }
+    .form-input {
+      width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px;
+      font-size: 16px; transition: 0.3s;
+    }
+    .form-input:focus { border-color: #0b4a6e; outline: none; box-shadow: 0 0 0 3px rgba(11, 74, 110, 0.1); }
+
+    /* BOTONES */
+    .btn {
+      background: linear-gradient(135deg, #0b4a6e 0%, #020f27 100%);
+      color: white; border: none; padding: 14px 28px; border-radius: 10px;
+      font-size: 16px; font-weight: 600; cursor: pointer; width: 100%;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(11, 74, 110, 0.3); }
+    .btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
+
+    /* INSTRUCCIONES */
+    .instructions-box {
+      background: #f1f5f9; padding: 25px; border-radius: 12px; border-left: 5px solid #0b4a6e;
+      margin-bottom: 25px; line-height: 1.7; font-size: 15px; text-align: justify;
+    }
+    .instructions-box ul { margin-left: 20px; margin-top: 10px; }
+    .instructions-box li { margin-bottom: 5px; }
+
+    /* TEST WRAPPER */
+    .test-wrapper {
+      max-height: 520px; overflow-y: auto; padding-right: 10px;
+      scroll-behavior: smooth;
+    }
+    .test-wrapper::-webkit-scrollbar { width: 8px; }
+    .test-wrapper::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+    .test-wrapper::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .test-wrapper::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* PREGUNTAS IPP */
+    .question-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 14px 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: background 0.2s;
+    }
+    .question-item:hover { background: #f8fafc; }
+    .question-item:nth-child(even) { background: #fafbfc; }
+    .question-item:nth-child(even):hover { background: #f1f5f9; }
+    .question-item.answered { border-left: 3px solid #0b4a6e; }
+    
+    .q-number {
+      font-weight: bold;
+      color: #0b4a6e;
+      font-size: 0.85rem;
+      min-width: 32px;
+      text-align: center;
+    }
+    .q-text {
+      flex: 1;
+      font-size: 0.95rem;
+      color: #334155;
+      line-height: 1.4;
+    }
+
+    .options-ipp {
+      display: flex;
+      gap: 6px;
+    }
+
+    .opt-btn-ipp {
+      width: 44px;
+      height: 38px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.15s;
+      background: white;
+    }
+    .opt-btn-ipp:hover {
+      border-color: #94a3b8;
+      background: #f1f5f9;
+      transform: scale(1.05);
+    }
+    .opt-btn-ipp.selected-a {
+      border-color: #059669;
+      background: #d1fae5;
+      color: #059669;
+    }
+    .opt-btn-ipp.selected-i {
+      border-color: #d97706;
+      background: #fef3c7;
+      color: #d97706;
+    }
+    .opt-btn-ipp.selected-d {
+      border-color: #dc2626;
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    /* LEYENDA */
+    .legend {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 12px 15px;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border-radius: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      border: 1px solid #e2e8f0;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+    .legend-color {
+      width: 28px;
+      height: 24px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.75rem;
+    }
+    .legend-a { background: #d1fae5; color: #059669; border: 2px solid #059669; }
+    .legend-i { background: #fef3c7; color: #d97706; border: 2px solid #d97706; }
+    .legend-d { background: #fee2e2; color: #dc2626; border: 2px solid #dc2626; }
+
+    /* ESTADO INTERMEDIO */
+    .intermission { text-align: center; padding: 40px; }
+    .intermission h2 { color: #0b4a6e; margin-bottom: 15px; }
+
+    /* PROGRESS BAR */
+    .progress-container {
+      margin-bottom: 15px;
+    }
+    .progress-bar {
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0b4a6e, #1e88e5);
+      transition: width 0.3s;
+      border-radius: 5px;
+    }
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+    .progress-text {
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 500;
+    }
+    .progress-percentage {
+      font-size: 13px;
+      color: #0b4a6e;
+      font-weight: 700;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .container { padding: 20px; }
+      .header h1 { font-size: 18px; }
+      .question-item { flex-wrap: wrap; gap: 10px; }
+      .q-text { width: 100%; order: 2; }
+      .options-ipp { order: 3; width: 100%; justify-content: flex-end; }
+      .opt-btn-ipp { width: 50px; height: 42px; }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  
+  <div class="header">
+    <h1 id="pageTitle">IPP - Inventario de Intereses y Preferencias Profesionales</h1>
+    <div id="timerDisplay" class="timer-badge" style="display:none">00:00</div>
+  </div>
+
+  <!-- ========== REGISTRO ========== -->
+  <div id="loginSection" class="section active">
+    <h2 style="margin-bottom: 20px; color: #0f172a;">Registro del Postulante</h2>
+    <div class="form-group">
+      <label>Nombre</label>
+      <input type="text" id="userName" class="form-input" placeholder="Ingrese su nombre">
+    </div>
+    <div class="form-group">
+      <label>Apellido</label>
+      <input type="text" id="userLast" class="form-input" placeholder="Ingrese su apellido">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="userEmail" class="form-input" placeholder="Ingrese su correo">
+    </div>
+    <button class="btn" onclick="goToInstructions()">Continuar</button>
+  </div>
+
+  <!-- ========== INSTRUCCIONES ========== -->
+  <div id="instSection" class="section">
+    <h2 style="margin-bottom: 20px; color: #0f172a;">Instrucciones</h2>
+    <div class="instructions-box">
+      <p>El <strong>IPP (Inventario de Intereses y Preferencias Profesionales)</strong> es un instrumento que permite explorar sus intereses vocacionales hacia distintos campos profesionales.</p>
+      <br>
+      <p>A continuación se presentarán <strong>108 actividades y profesiones</strong>. Para cada una, indique su preferencia personal:</p>
+      <br>
+      <div class="legend" style="justify-content: flex-start; background: white;">
+        <div class="legend-item">
+          <div class="legend-color legend-a">A</div>
+          <span>= Me <strong>Agrada</strong></span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color legend-i">I</div>
+          <span>= Me es <strong>Indiferente</strong></span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color legend-d">D</div>
+          <span>= Me <strong>Desagrada</strong></span>
+        </div>
+      </div>
+      <br>
+      <p><strong>Recomendaciones:</strong></p>
+      <ul>
+        <li>No hay respuestas correctas ni incorrectas</li>
+        <li>Responda según sus preferencias reales, no según lo que cree que debería gustarle</li>
+        <li>No piense demasiado cada respuesta, confíe en su primera impresión</li>
+        <li>Responda a todas las preguntas</li>
+        <li>Tiempo estimado: 15-20 minutos</li>
+      </ul>
+    </div>
+    <button class="btn" onclick="startTest()">COMENZAR TEST</button>
+  </div>
+
+  <!-- ========== TEST ========== -->
+  <div id="testSection" class="section">
+    <div class="progress-container">
+      <div class="progress-bar"><div id="progressBar" class="progress-fill" style="width: 0%"></div></div>
+      <div class="progress-info">
+        <span class="progress-text">Respondidas: <span id="progressCount">0</span> / 108</span>
+        <span class="progress-percentage" id="progressPercent">0%</span>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-color legend-a">A</div>
+        <span>Agrada</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color legend-i">I</div>
+        <span>Indiferente</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color legend-d">D</div>
+        <span>Desagrada</span>
+      </div>
+    </div>
+    <div id="questionsContainer" class="test-wrapper"></div>
+    <button class="btn" style="margin-top: 20px;" id="finishBtn" onclick="finishTest()">FINALIZAR TEST</button>
+  </div>
+
+  <!-- ========== FINAL ========== -->
+  <div id="finalSection" class="section intermission">
+    <h2 style="color: #059669;">¡Test IPP Completado!</h2>
+    <div style="font-size: 60px; margin: 20px 0;">✅</div>
+    <p>Ha completado el Inventario de Intereses y Preferencias Profesionales.</p>
+    <p style="margin-top: 10px;">Sus respuestas han sido registradas correctamente.</p>
+    <div id="loadingMsg" style="margin-top:20px; color:#0b4a6e; font-weight:bold;">Guardando datos...</div>
+    <div id="finalDynamicArea" style="margin-top:16px;"></div>
+  </div>
+
+</div>
+
+<script type="module" src="./script.js"></script>
+
+
+</body>
+</html>

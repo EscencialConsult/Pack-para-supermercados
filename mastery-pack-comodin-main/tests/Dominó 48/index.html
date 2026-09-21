@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOMINO 48 - ONE</title>
+    <link rel="shortcut icon" href="../../img/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../img/favicon.png">
+    <link rel="shortcut icon" href="../../img/favicon.png" type="image/png">
+
+    <style>
+        /* === RESET Y BASE === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'sans-serif';
+            background-image: url('../../img/fondo-escencial.jpg');
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Fondo con imagen (ajusta la ruta a tu proyecto) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../../img/one-fondograndecolor.jpg');
+            background-size: 100% 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            opacity: 1;
+            filter: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            padding: 28px;
+            position: relative;
+            margin-top: 60px;
+        }
+
+        .logo {
+            position: absolute;
+            top: -35px;
+            right: 16px;
+            left: auto;
+            transform: translateX(0);
+            background-image: url('../../img/escencial-logo.png');
+            /* ajusta ruta/logo */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 150px;
+            height: 150px;
+            z-index: 100;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .container.modo-test .logo {
+            right: 50%;
+            transform: translateX(50%);
+            top: -35px;
+            width: 180px;
+            height: 180px;
+        }
+
+        .container.modo-resultados .logo {
+            left: 0;
+            right: auto;
+            transform: none;
+            top: -25px;
+            background-position: left bottom;
+            width: 200px;
+        }
+
+        .container.modo-resultados {
+            margin-top: 25px !important;
+            transition: margin-top 0.6s ease;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                width: 100px;
+                height: 100px;
+                top: -30px;
+                right: 10px;
+            }
+
+            .container.modo-test .logo {
+                width: 120px;
+                height: 120px;
+                top: -60px;
+                right: 50%;
+                transform: translateX(50%);
+            }
+
+            .container {
+                margin-top: 60px;
+                padding: 24px 16px;
+            }
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        h1 {
+            color: #020f27;
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 24px;
+            font-weight: bold;
+            padding-right: 20px;
+        }
+
+        h2 {
+            color: #020f27;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .intro-content {
+            line-height: 1.8;
+            color: #374151;
+        }
+
+        .intro-box {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .intro-box h3 {
+            color: #020f27;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .intro-box ul {
+            margin-left: 20px;
+        }
+
+        .intro-box li {
+            margin: 8px 0;
+        }
+
+        .notice {
+            background: #eff6ff;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-top: 8px;
+            font-size: 14px;
+            border: 1px solid #bfdbfe;
+            color: #1d4ed8;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.3s, transform 0.15s;
+            color: white;
+            background-color: #020f27;
+        }
+
+        .btn:hover:not(:disabled) {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-ghost {
+            background: #e5e7eb;
+            color: #020f27;
+            flex: 0 0 auto;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .timer {
+            background: #f5f5f5;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #020f27;
+            border: 2px solid #0b4a6e;
+        }
+
+        .timer-over {
+            background: #fee2e2;
+            border-color: #fecaca;
+            color: #b91c1c;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .field-help {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 14px;
+            border: 2px solid #0b4a6e;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input:focus {
+            border-color: #020f27;
+            box-shadow: 0 0 0 2px rgba(2, 15, 39, 0.2);
+        }
+
+        .input-error {
+            border-color: #b91c1c !important;
+            box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2);
+        }
+
+        .error-text {
+            font-size: 12px;
+            color: #b91c1c;
+            margin-bottom: 4px;
+        }
+
+        /* === SECUENCIA DE FICHAS === */
+        .domino-sequence {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .domino-sequence .domino,
+        .domino-sequence .question-mark {
+            animation: dominoSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+
+        .domino-sequence .domino:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .domino-sequence .domino:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .domino-sequence .domino:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .domino-sequence .domino:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .domino-sequence .question-mark {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes dominoSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .domino {
+            width: 55px;
+            height: 110px;
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border: 3px solid #020f27;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            box-shadow:
+                0 8px 16px rgba(2, 15, 39, 0.15),
+                inset 0 2px 4px rgba(255, 255, 255, 0.8),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .domino::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            height: 30%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), transparent);
+            border-radius: 8px 8px 0 0;
+            pointer-events: none;
+        }
+
+        .domino:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 12px 20px rgba(2, 15, 39, 0.2),
+                inset 0 2px 4px rgba(255, 255, 255, 0.8);
+        }
+
+        .domino-small {
+            width: 48px;
+            height: 96px;
+        }
+
+        .domino-half {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .domino-half:first-child {
+            border-bottom: 3px solid #020f27;
+            border-radius: 7px 7px 0 0;
+        }
+
+        .domino-half:last-child {
+            border-radius: 0 0 7px 7px;
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            background: radial-gradient(circle at 30% 30%, #1a2744, #020f27);
+            border-radius: 50%;
+            position: absolute;
+            box-shadow:
+                0 2px 4px rgba(2, 15, 39, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            animation: dotAppear 0.4s ease-out backwards;
+        }
+
+        .domino-small .dot {
+            width: 9px;
+            height: 9px;
+        }
+
+        @keyframes dotAppear {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .question-mark {
+            font-size: 2.5em;
+            color: #0b4a6e;
+            font-weight: bold;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
+
+        /* === OPCIONES === */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+            gap: 18px;
+            margin: 20px 0 10px;
+        }
+
+        .option-btn {
+            padding: 14px;
+            border: 3px solid #e5e7eb;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #ffffff, #fafafa);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(11, 74, 110, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .option-btn:hover {
+            border-color: #0b4a6e;
+            background: linear-gradient(145deg, #f9fafb, #ffffff);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 16px rgba(11, 74, 110, 0.15);
+        }
+
+        .option-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .option-btn.selected {
+            border-color: #020f27;
+            background: linear-gradient(145deg, #e8f4f8, #d5ebf5);
+            transform: scale(1.08);
+            box-shadow:
+                0 0 0 4px rgba(2, 15, 39, 0.1),
+                0 8px 20px rgba(2, 15, 39, 0.25);
+            animation: selectPulse 0.6s ease-out;
+        }
+
+        @keyframes selectPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1.08);
+            }
+        }
+
+        .option-btn {
+            animation: optionFadeIn 0.5s ease-out backwards;
+        }
+
+        .option-btn:nth-child(1) {
+            animation-delay: 0.6s;
+        }
+
+        .option-btn:nth-child(2) {
+            animation-delay: 0.7s;
+        }
+
+        .option-btn:nth-child(3) {
+            animation-delay: 0.8s;
+        }
+
+        .option-btn:nth-child(4) {
+            animation-delay: 0.9s;
+        }
+
+        .option-btn:nth-child(5) {
+            animation-delay: 1.0s;
+        }
+
+        .option-btn:nth-child(6) {
+            animation-delay: 1.1s;
+        }
+
+        @keyframes optionFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .nav-left,
+        .nav-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* === RESULTADOS Dominó 48 === */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 25px 0;
+        }
+
+        .result-card {
+            padding: 18px 20px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+
+        .result-card.green {
+            background: #d1fae5;
+        }
+
+        .result-card.blue {
+            background: #dbeafe;
+        }
+
+        .result-card.purple {
+            background: #f0f4ff;
+        }
+
+        .result-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+
+        .result-number {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin: 4px 0 4px;
+            color: #020f27;
+        }
+
+        .result-sub {
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        .result-tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            padding: 2px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .result-tag-good {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .result-tag-warn {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+
+        .result-tag-info {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .block-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .block-table th,
+        .block-table td {
+            padding: 4px 6px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        .block-table th {
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .results-note {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 6px;
+        }
+
+        /* === MODAL GENÉRICO === */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            padding: 20px 20px 16px;
+            border-radius: 14px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .modal-title {
+            color: #020f27;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .modal-body {
+            font-size: 14px;
+            color: #374151;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .btn-back {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #020f27 !important;
+            border: 2px solid #020f27;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            font-weight: 700;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            background: #020f27;
+            color: white !important;
+            box-shadow: 0 6px 15px rgba(2, 15, 39, 0.2);
+        }
+
+        .btn-back svg {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-back:hover svg {
+            transform: translateX(-3px);
+        }
+
+        /* Ocultar en móviles muy pequeños si molesta, o ajustar */
+        @media (max-width: 480px) {
+            .btn-back {
+                padding: 8px 14px;
+                font-size: 12px;
+            }
+        }
+
+        @media print {
+            .btn-back {
+                display: none !important;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="../../index.html" class="btn-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6" />
+        </svg>
+        Volver a catalogo
+    </a>
+    <div class="container" id="main-container">
+
+        <!-- PANTALLA DE REGISTRO -->
+        <section id="screen-registration" class="screen active" style="max-width: 500px; margin: 0 auto;">
+            <h1>Dominó 48</h1>
+            <p class="subtitle">Prueba de Razonamiento No Verbal con Fichas Modulares</p>
+
+            <div style="margin-top: 16px;">
+                <div class="form-group">
+                    <label for="user-name">👤 Nombre</label>
+                    <input type="text" id="user-name" class="input" placeholder="Ingresa tu nombre" />
+                    <p id="user-name-error" class="error-text" style="display:none;"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="user-lastname">👤 Apellido</label>
+                    <input type="text" id="user-lastname" class="input" placeholder="Ingresa tu apellido" />
+                    <p id="user-lastname-error" class="error-text" style="display:none;"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="user-email">✉️ Email</label>
+
+                    <input type="email" id="user-email" class="input" placeholder="tu.email@ejemplo.com" />
+                    <p id="user-email-error" class="error-text" style="display:none;"></p>
+                </div>
+
+
+
+                <button class="btn" id="btn-go-instructions">Continuar</button>
+
+                <div class="intro-box" style="margin-top: 24px;">
+                    <h3>Resumen técnico</h3>
+                    <ul>
+                        <li>Duración estimada: 20–25 minutos.</li>
+                        <li>Número de ítems: 40.</li>
+                        <li>Formato: selección de la ficha que completa la secuencia.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA DE INSTRUCCIONES -->
+        <section id="screen-instructions" class="screen">
+            <h1>Dominó 48</h1>
+            <p class="subtitle" id="participant-label"></p>
+
+            <div class="intro-content">
+                <p style="font-size: 1em; margin-bottom: 16px; color: #374151;">
+                    Esta prueba evalúa tu capacidad para descubrir reglas en secuencias visuales y aplicarlas a nuevos
+                    estímulos,
+                    sin depender del lenguaje.
+                </p>
+                <div class="intro-box">
+                    <h3>Instrucciones:</h3>
+                    <ul>
+                        <li>Verás <strong>fichas tipo dominó</strong> organizadas en una secuencia.</li>
+                        <li>Al final habrá un espacio vacío (signo de interrogación).</li>
+                        <li>Debes elegir, entre las 6 opciones, la ficha que completa correctamente la secuencia.</li>
+                        <li>La prueba tiene <strong>40 ítems</strong> y un límite de <strong>25 minutos</strong>.</li>
+                        <li>La dificultad aumenta: ítems básicos, luego medios y finalmente avanzados.</li>
+                        <li>No se dan ejemplos de solución y no se aclararán las reglas de cada ejercicio.</li>
+                    </ul>
+                </div>
+                <div class="notice">
+                    Una vez que comiences, el tiempo <strong>no se detendrá</strong>. Asegúrate de estar en un lugar
+                    tranquilo
+                    y sin interrupciones.
+                </div>
+                <div style="margin-top: 20px; display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn-secondary btn" id="btn-back-registration" style="flex:1;">Volver</button>
+                    <button class="btn" id="btn-start-test" style="flex:1;">Comenzar prueba</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA DEL TEST -->
+        <section id="screen-test" class="screen">
+            <div style="padding-right: 10px; margin-bottom: 16px;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; gap:8px; flex-wrap:wrap;">
+                    <div class="question-info">
+                        <span id="question-number">Ítem 1 de 40</span>
+                    </div>
+                    <div class="timer" id="timer">25:00</div>
+                </div>
+                <h2 style="margin-top: 16px;">¿Qué ficha continúa la secuencia?</h2>
+            </div>
+
+            <div class="domino-sequence" id="sequence-container"></div>
+
+            <h3 style="margin-top: 10px; color: #374151; font-weight: 600;">
+                Selecciona tu respuesta:
+            </h3>
+            <div class="options-grid" id="options-container"></div>
+
+            <div class="navigation">
+                <div class="nav-left">
+                    <button class="btn btn-secondary" id="btn-prev">Anterior</button>
+                </div>
+                <div class="nav-right">
+                    <button class="btn btn-ghost" id="btn-summary-mini" type="button">Resumen rápido</button>
+                    <button class="btn btn-success" id="btn-finish" type="button">Finalizar prueba</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA DE RESULTADOS -->
+        <section id="screen-results" class="screen">
+            <h1>Dominó 48</h1>
+            <p class="subtitle" id="results-participant"></p>
+
+            <div class="intro-box">
+                <h3>Resultados enviados</h3>
+                <p id="results-message">
+                    Tus respuestas han sido registradas y los resultados se han enviado correctamente
+                    al profesional a cargo de la evaluación.
+                </p>
+            </div>
+
+            <p class="results-note">
+                Si tienes dudas sobre tu evaluación, contacta a la persona o institución que te proporcionó este enlace.
+            </p>
+            <div id="finalDynamicArea" style="margin-top:16px;"></div>
+            <div style="margin-top: 20px; text-align:center;">
+                <!-- <a href="../../usuarios.html" class="btn" style="max-width: 260px; display:inline-block;">
+                    Volver
+                </a> -->
+            </div>
+        </section>
+
+    </div>
+
+    <!-- MODAL GENÉRICO -->
+    <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-body">
+            <h2 id="modal-title" class="modal-title">Confirmar acción</h2>
+            <p id="modal-body" class="modal-body"></p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="modal-cancel" type="button">Cancelar</button>
+                <button class="btn btn-success" id="modal-confirm" type="button">Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./script.js"></script>
+
+</body>
+
+</html>

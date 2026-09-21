@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EBP - Escala de Bienestar Psicológio </title>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+
+<div class="container">
+  <div class="header" style="display: flex; align-items: center; justify-content: space-between; padding: 20px; background-color: white; border-radius: 15px; margin-bottom: 20px;">
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <div style="flex: 1;">
+        <img src="../../img/escencial-logo.png" alt="Escencial Consultora" style="width: 250px; height: auto; display: block;" />
+      </div>
+      <div style="flex: 2; text-align: right;">
+        <h1 id="pageTitle" style="margin: 0; font-size: 24px; color: #1a2a3a; line-height: 1.2; font-family: sans-serif;">
+          EBP - Escala de Bienestar Psicológico
+        </h1>
+        <div id="timerDisplay" class="timer-badge" style="display:none">00:00</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- ========== REGISTRO ========== -->
+  <div id="loginSection" class="section active">
+    <h2 style="margin-bottom: 20px; color: #0f172a;">Registro del Evaluado</h2>
+    <div class="form-group">
+      <label>Nombre</label>
+      <input type="text" id="userName" class="form-input" placeholder="Ingrese su nombre">
+    </div>
+    <div class="form-group">
+      <label>Apellido</label>
+      <input type="text" id="userLast" class="form-input" placeholder="Ingrese su apellido">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="userEmail" class="form-input" placeholder="Ingrese su correo">
+    </div>
+    <div class="form-group">
+      <label>Sexo</label>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="userSex" value="M" id="sexM">
+          <span>Masculino</span>
+        </label>
+        <label>
+          <input type="radio" name="userSex" value="F" id="sexF">
+          <span>Femenino</span>
+        </label>
+      </div>
+    </div>
+    <button class="btn" onclick="goToInstructions()">Continuar</button>
+  </div>
+
+  <!-- ========== INSTRUCCIONES ========== -->
+  <div id="instSection" class="section">
+    <h2 style="margin-bottom: 20px; color: #0f172a;">Instrucciones Generales</h2>
+    <div class="instructions-box">
+      <p>La <strong>Escala de Bienestar Psicológico (EBP)</strong> es un instrumento diseñado para evaluar diferentes dimensiones del bienestar personal.</p>
+      <br>
+      <p>Este cuestionario evalúa <strong>tres áreas principales</strong>:</p>
+      <br>
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom: 8px;">📊 <strong>Bienestar Psicológico Subjetivo</strong> - Percepción general de bienestar (40 ítems)</li>
+        <li style="margin-bottom: 8px;">💼 <strong>Bienestar Material/Laboral</strong> - Satisfacción con el trabajo (10 ítems)</li>
+        <li style="margin-bottom: 8px;">❤️ <strong>Relaciones con la Pareja</strong> - Satisfacción en la relación de pareja (15 ítems)</li>
+      </ul>
+      <br>
+      <p><strong>Instrucciones:</strong></p>
+      <ul>
+        <li>Lea cada afirmación cuidadosamente</li>
+        <li>Responda con sinceridad según su situación actual</li>
+        <li>No hay respuestas correctas o incorrectas</li>
+        <li>Use la escala de 1 (Nunca) a 5 (Siempre)</li>
+        <li>Tiempo estimado: 15-20 minutos</li>
+      </ul>
+    </div>
+    <button class="btn" onclick="startSection1()">COMENZAR CUESTIONARIO</button>
+  </div>
+
+  <!-- ========== SECCIÓN 1: BIENESTAR PSICOLÓGICO SUBJETIVO ========== -->
+  <div id="section1" class="section">
+    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+      <h3 style="color: #0f172a;">Sección 1: Bienestar Psicológico Subjetivo</h3>
+      <span class="section-badge badge-section1">40 ítems</span>
+    </div>
+    <div class="progress-container">
+      <div class="progress-bar"><div id="progressBar1" class="progress-fill" style="width: 0%"></div></div>
+      <div class="progress-info">
+        <span class="progress-text">Respondidas: <span id="progressCount1">0</span> / 40</span>
+        <span class="progress-percentage" id="progressPercent1">0%</span>
+      </div>
+    </div>
+    <div id="questionsContainer1" class="test-wrapper"></div>
+    <button class="btn" style="margin-top: 20px;" onclick="finishSection1()">CONTINUAR A SECCIÓN 2</button>
+  </div>
+
+  <!-- ========== SECCIÓN 2: BIENESTAR LABORAL ========== -->
+  <div id="section2" class="section">
+    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+      <h3 style="color: #0f172a;">Sección 2: Bienestar Material/Laboral</h3>
+      <span class="section-badge badge-section2">10 ítems</span>
+    </div>
+    <div class="progress-container">
+      <div class="progress-bar"><div id="progressBar2" class="progress-fill" style="width: 0%"></div></div>
+      <div class="progress-info">
+        <span class="progress-text">Respondidas: <span id="progressCount2">0</span> / 10</span>
+        <span class="progress-percentage" id="progressPercent2">0%</span>
+      </div>
+    </div>
+    <div id="questionsContainer2" class="test-wrapper"></div>
+    <button class="btn" style="margin-top: 20px;" onclick="finishSection2()">CONTINUAR A SECCIÓN 3</button>
+  </div>
+
+  <!-- ========== SECCIÓN 3: RELACIONES CON LA PAREJA ========== -->
+  <div id="section3" class="section">
+    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+      <h3 style="color: #0f172a;">Sección 3: Relaciones con la Pareja</h3>
+      <span class="section-badge badge-section3">15 ítems</span>
+    </div>
+    <div class="progress-container">
+      <div class="progress-bar"><div id="progressBar3" class="progress-fill" style="width: 0%"></div></div>
+      <div class="progress-info">
+        <span class="progress-text">Respondidas: <span id="progressCount3">0</span> / 15</span>
+        <span class="progress-percentage" id="progressPercent3">0%</span>
+      </div>
+    </div>
+    <div id="questionsContainer3" class="test-wrapper"></div>
+    <button class="btn" style="margin-top: 20px;" onclick="finishTest()">FINALIZAR CUESTIONARIO</button>
+  </div>
+
+  <!-- ========== FINAL ========== -->
+  <div id="finalSection" class="section final-section">
+    <h2 style="color: #059669;">¡Cuestionario EBP Completado!</h2>
+    <div style="font-size: 60px; margin: 20px 0;">✅</div>
+    <p>Ha completado la Escala de Bienestar Psicológico.</p>
+    <p style="margin-top: 10px;">Sus respuestas han sido registradas correctamente.</p>
+    <div id="loadingMsg" style="margin-top:20px; color:#0b4a6e; font-weight:bold;">Guardando datos...</div>
+    <div id="finalDynamicArea" style="margin-top:16px;"></div>
+  </div>
+
+</div>
+
+
+<script type="module" src="script.js"></script>
+</body>
+</html>
